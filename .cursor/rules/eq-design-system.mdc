@@ -1,0 +1,39 @@
+---
+description: EQ UI style (deep black + turquoise glow, Alexandria/NewBlack, pill CTA, subtle inputs)
+globs: src/**/*.{ts,tsx,css}
+alwaysApply: false
+---
+
+# EQ Design System (Pages + UI)
+
+- **Palette**: Base background `#08070e`. Accent **turquoise** `#00B4C4` used sparingly and mostly as glow (5–8% opacity).
+- **Atmosphere**: Prefer subtle radial glows on horizontal edges and thin “light line” between major sections. Avoid loud gradients.
+- **Typography**:
+  - Body/UI: `Alexandria`
+  - Headlines: `NewBlackTypeface`
+  - “Terminal-ish” elements (hashes, addresses, ids): use `font-mono`.
+- **Page structure**:
+  - Wrap pages in `.eq-page` and sections/cards in `.eq-card`.
+  - Keep consistent spacing: `space-y-6` at page level; cards `p-6`.
+- **Inputs**:
+  - Use `.eq-input` for `input`, `select`, `textarea`.
+  - No floating labels. If needed, keep label as small text above; placeholder inside the field in muted gray.
+  - Visual spec: radius 8–10px, bg `rgba(255,255,255,0.05)`, border `rgba(255,255,255,0.10)`.
+  - Focus/hover: turquoise border + very subtle glow (no heavy neon).
+- **Primary CTA button**:
+  - Use `.eq-cta` (pill, solid turquoise, white bold text) and include a right arrow `→`.
+  - This should be the **only** highly saturated element in a section.
+- **Secondary buttons**:
+  - Use `.eq-btn-outline` (quiet outline, slight hover lift).
+
+## Examples
+
+```tsx
+<Button className="eq-cta">
+  Continuar <span aria-hidden>→</span>
+</Button>
+
+<input className="eq-input" placeholder="0.75" />
+
+<div className="eq-card">...</div>
+```
