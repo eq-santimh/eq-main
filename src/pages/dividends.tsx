@@ -61,7 +61,7 @@ export default function DividendsPage() {
             {dividendHistory.map((d) => (
               <div
                 key={d.id}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border/40 bg-black/20 px-4 py-3"
+                className="flex flex-wrap items-center justify-between gap-4 rounded-sm border border-border/40 bg-black/20 px-4 py-3"
               >
                 <div>
                   <div className="text-xs text-muted-foreground">Fecha</div>
@@ -80,7 +80,7 @@ export default function DividendsPage() {
             ))}
           </div>
 
-          <div className="mt-5 rounded-2xl border border-border/40 bg-black/20 p-5">
+          <div className="mt-5 rounded-sm border border-border/40 bg-black/20 p-5">
             <div className="text-sm font-semibold text-foreground">Auto-Invest (demo)</div>
             <div className="mt-2 text-sm text-muted-foreground">
               Cuando está habilitado, los dividendos cobrados se reinvierten

@@ -152,7 +152,7 @@
   }
 
   .eq-card {
-    @apply rounded-2xl border border-border/60 bg-card/20 p-6 backdrop-blur;
+    @apply rounded-sm border border-border/60 bg-card/20 p-6 backdrop-blur;
   }
 
   .eq-input {
@@ -174,7 +174,7 @@
   }
 
   .eq-btn-outline {
-    @apply rounded-xl border-border/60 hover:bg-white/5;
+    @apply rounded-sm border-border/60 hover:bg-white/5;
   }
 
   .eq-cta {

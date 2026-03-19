@@ -59,7 +59,7 @@ export default function PseudoQr({ value }: { value: string }) {
 
   return (
     <div
-      className="grid gap-px bg-white/5 p-2 rounded-xl border border-border/60"
+      className="grid gap-px bg-white/5 p-2 rounded-sm border border-border/60"
       style={{ gridTemplateColumns: `repeat(${cells.size}, minmax(0, 1fr))` }}
       aria-label="QR code (mock)"
       role="img"

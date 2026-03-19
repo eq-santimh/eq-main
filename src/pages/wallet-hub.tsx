@@ -45,7 +45,7 @@ export default function WalletHubPage() {
             {walletBalances.map((b) => (
               <div
                 key={b.symbol}
-                className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-border/40 bg-black/20 px-4 py-3"
+                className="flex flex-wrap items-center justify-between gap-4 rounded-sm border border-border/40 bg-black/20 px-4 py-3"
               >
                 <div>
                   <div className="text-sm text-muted-foreground">Activo</div>

@@ -1,24 +1,22 @@
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import {
   Activity,
   BarChart3,
-  Bell,
   Grid2X2,
   LayoutDashboard,
   Pin,
   PinOff,
   EyeOff,
-  Search,
   Shield,
-  UserRound,
   Wallet,
-  Zap,
   Coins,
 } from "lucide-react";
 
 import { Footer } from "@/components/footer";
+import { DashboardHeader } from "@/components/header";
 import { cn } from "@/lib/utils";
 
 type NavItem = {
@@ -33,7 +31,7 @@ type SidebarMode = "auto" | "pinned" | "hidden";
 
 const SIDEBAR_FULL_W = 210;
 const SIDEBAR_ICON_W = 56;
-const SIDEBAR_HIDDEN_W = 12;
+const SIDEBAR_HIDDEN_W = 20;
 
 const nav: NavItem[] = [
   {
@@ -70,13 +68,6 @@ const nav: NavItem[] = [
     shortLabel: "Stats",
     icon: <BarChart3 className="size-4 shrink-0" />,
     color: "#34d399",
-  },
-  {
-    href: "/profile",
-    label: "Perfil",
-    shortLabel: "Perfil",
-    icon: <UserRound className="size-4 shrink-0" />,
-    color: "#22d3ee",
   },
   {
     href: "/dividends",
@@ -203,6 +194,9 @@ export default function DashboardShell({
       : sidebarMode === "pinned"
         ? "Desfijar"
         : "Modo automático";
+  const activeNavItem =
+    nav.find((item) => isNavActive(item.href, pathname)) ?? nav[0];
+  const isHiddenIdle = sidebarMode === "hidden" && !hovered;
   const pageMeta = getPageMeta(pathname);
   const userName = "Jose Santiago";
   const userInitials = userName
@@ -269,64 +263,119 @@ export default function DashboardShell({
           }}
         />
 
-        {/* Dot indicators in hidden mode */}
+        {/* Hidden mode indicator: presence + active page color */}
         {sidebarMode === "hidden" && !hovered && (
-          <div className="absolute left-2 top-1/2 -translate-y-1/2 flex flex-col gap-2.5 items-center z-30">
-            {nav.map((item) => {
-              const active = isNavActive(item.href, pathname);
-              return (
-                <div
-                  key={item.href}
-                  className="rounded-full transition-all duration-200"
-                  style={{
-                    width: active ? "5px" : "3px",
-                    height: active ? "5px" : "3px",
-                    backgroundColor: item.color,
-                    boxShadow: `0 0 ${active ? 8 : 3}px ${item.color}`,
-                    opacity: active ? 1 : 0.35,
-                  }}
-                />
-              );
-            })}
+          <div className="absolute inset-y-0 left-0 right-0 z-30 pointer-events-none flex items-center justify-end">
+            {/* Sidebar presence marker */}
+
+            {/* Active page marker */}
+            <div className="mt-3 flex gap-2 items-center">
+              <div
+                className="h-2 w-2 rounded-full transition-all duration-200"
+                style={{
+                  backgroundColor: activeNavItem.color,
+                  boxShadow: `0 0 8px ${activeNavItem.color}`,
+                }}
+              />
+              <span
+                className="transition-all duration-200"
+                style={{
+                  color: activeNavItem.color,
+                  filter: `drop-shadow(0 0 6px ${activeNavItem.color}88)`,
+                }}
+              >
+                {activeNavItem.icon}
+              </span>
+
+            </div>
           </div>
         )}
 
         {/* Sidebar inner content */}
-        <div className="relative z-10 flex flex-col h-full py-5 overflow-hidden">
+        <div
+          className="relative z-10 flex flex-col h-full py-5 overflow-hidden transition-all duration-200"
+          style={{
+            opacity: isHiddenIdle ? 0 : 1,
+            transform: isHiddenIdle ? "translateX(-6px)" : "translateX(0px)",
+            pointerEvents: isHiddenIdle ? "none" : "auto",
+          }}
+        >
           {/* ── Brand ── */}
           <div className="flex items-center px-3 mb-3 shrink-0 overflow-hidden">
             <Link href="/" className="flex items-center gap-2.5 group min-w-0">
               <div
-                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl border transition-all duration-300 group-hover:scale-105"
+                className="relative flex h-8 shrink-0 items-center justify-center overflow-hidden rounded-sm border px-1.5 transition-all duration-300 group-hover:scale-105"
                 style={{
-                  background: "rgba(0,180,196,0.12)",
+                  width: isExpanded ? "154px" : "34px",
+                  background: "rgba(0,180,196,0.08)",
                   borderColor: "rgba(0,180,196,0.25)",
                   boxShadow: isExpanded
                     ? "0 0 14px rgba(0,180,196,0.20), inset 0 0 8px rgba(0,180,196,0.08)"
                     : "none",
                 }}
               >
-                <Zap className="size-4 text-primary" />
-              </div>
-              <div
-                className="overflow-hidden whitespace-nowrap transition-all duration-200"
-                style={{
-                  maxWidth: isExpanded ? "180px" : "0px",
-                  opacity: isExpanded ? 1 : 0,
-                  transitionDelay: isExpanded ? "60ms" : "0ms",
-                }}
-              >
-                <div className="text-xs font-bold tracking-[0.2em] text-foreground leading-none">
-                  EQUITTY
-                </div>
-                <div
-                  className="text-[10px] tracking-widest leading-none mt-0.5"
-                  style={{ color: "rgba(0,180,196,0.65)" }}
-                >
-                  RWA Platform
-                </div>
+                <Image
+                  src="/equitty_isotipo.webp"
+                  alt="EQUITY isotipo"
+                  width={20}
+                  height={20}
+                  priority
+                  className={cn(
+                    "h-5 w-5 object-contain transition-all duration-200",
+                    isExpanded ? "scale-90 opacity-0" : "scale-100 opacity-100"
+                  )}
+                />
+                <Image
+                  src="/logo-accent.png"
+                  alt="EQUITY"
+                  width={132}
+                  height={24}
+                  priority
+                  className={cn(
+                    "absolute h-5 w-auto max-w-none object-contain transition-all duration-200",
+                    isExpanded ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0"
+                  )}
+                />
               </div>
             </Link>
+          </div>
+
+          {/* Pin/fix toggle moved to top */}
+          <div className="px-2 mb-2 shrink-0">
+            <button
+              onClick={cycleSidebarMode}
+              title={modeLabel}
+              className="flex items-center gap-2 w-full rounded-sm px-2.5 py-2 text-xs transition-all duration-200 overflow-hidden hover:bg-white/4"
+              style={{ color: "rgba(215,207,199,0.45)" }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  "rgba(215,207,199,0.75)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color =
+                  "rgba(215,207,199,0.45)";
+              }}
+            >
+              {sidebarMode === "pinned" ? (
+                <Pin
+                  className="size-3 shrink-0"
+                  style={{ color: "rgba(0,180,196,0.65)" }}
+                />
+              ) : sidebarMode === "hidden" ? (
+                <EyeOff className="size-3 shrink-0" />
+              ) : (
+                <PinOff className="size-3 shrink-0" />
+              )}
+              <span
+                className="whitespace-nowrap overflow-hidden transition-all duration-200"
+                style={{
+                  maxWidth: isExpanded ? "160px" : "0px",
+                  opacity: isExpanded ? 1 : 0,
+                }}
+              >
+                {modeLabel}
+              </span>
+            </button>
           </div>
 
           {/* Separator */}
@@ -338,15 +387,15 @@ export default function DashboardShell({
             }}
           />
 
-          {/* ── Nav — vertically centered ── */}
-          <nav className="flex flex-col justify-center flex-1 gap-0.5 px-2 overflow-y-auto overflow-x-hidden">
+          {/* ── Nav ── */}
+          <nav className="flex flex-col justify-start flex-1 gap-0.5 px-2 overflow-y-auto overflow-x-hidden">
             {nav.map((item) => {
               const active = isNavActive(item.href, pathname);
               return (
                 <Link key={item.href} href={item.href}>
                   <div
                     className={cn(
-                      "relative flex items-center gap-3 rounded-xl px-2.5 py-2.5 text-sm transition-all duration-200 cursor-pointer overflow-hidden",
+                      "relative flex items-center gap-3 rounded-sm px-2.5 py-2.5 text-sm transition-all duration-200 cursor-pointer overflow-hidden",
                       !active &&
                         "hover:bg-white/4 hover:text-foreground/80"
                     )}
@@ -362,7 +411,7 @@ export default function DashboardShell({
                     {/* Active radial glow bg */}
                     {active && (
                       <div
-                        className="absolute inset-0 rounded-xl pointer-events-none"
+                        className="absolute inset-0 rounded-sm pointer-events-none"
                         style={{
                           background: `radial-gradient(ellipse at 15% 50%, ${item.color}1a, transparent 65%)`,
                         }}
@@ -389,7 +438,7 @@ export default function DashboardShell({
                         backgroundColor: item.color,
                         boxShadow:
                           active && !isExpanded
-                            ? `0 0 6px ${item.color}`
+                           ? `0 0 6px ${item.color}`
                             : "none",
                       }}
                     />
@@ -468,41 +517,6 @@ export default function DashboardShell({
               </button>
             </div>
 
-            {/* Mode toggle */}
-            <button
-              onClick={cycleSidebarMode}
-              title={modeLabel}
-              className="flex items-center gap-2 w-full rounded-xl px-2.5 py-2 text-xs transition-all duration-200 overflow-hidden hover:bg-white/4"
-              style={{ color: "rgba(215,207,199,0.38)" }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color =
-                  "rgba(215,207,199,0.75)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.color =
-                  "rgba(215,207,199,0.38)";
-              }}
-            >
-              {sidebarMode === "pinned" ? (
-                <Pin
-                  className="size-3 shrink-0"
-                  style={{ color: "rgba(0,180,196,0.6)" }}
-                />
-              ) : sidebarMode === "hidden" ? (
-                <EyeOff className="size-3 shrink-0" />
-              ) : (
-                <PinOff className="size-3 shrink-0" />
-              )}
-              <span
-                className="whitespace-nowrap overflow-hidden transition-all duration-200"
-                style={{
-                  maxWidth: isExpanded ? "160px" : "0px",
-                  opacity: isExpanded ? 1 : 0,
-                }}
-              >
-                {modeLabel}
-              </span>
-            </button>
           </div>
         </div>
       </aside>
@@ -518,66 +532,17 @@ export default function DashboardShell({
           sidebarMode === "pinned"
             ? "lg:ml-[210px]"
             : sidebarMode === "hidden"
-              ? "lg:ml-3"
+              ? "lg:ml-5"
               : "lg:ml-14"
         )}
       >
-        <div className="mx-auto max-w-5xl px-4 pb-20 pt-4">
-          <header className="sticky top-0 z-30 mb-5">
-            <div className="rounded-2xl border border-border/45 bg-[#0b0a12]/82 px-4 py-3 backdrop-blur-xl shadow-[0_6px_34px_-16px_rgba(0,180,196,0.35)] sm:px-5">
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-                <div className="min-w-0 flex-1">
-                  <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">
-                    EQ Dashboard
-                  </div>
-                  <h1 className="mt-1 truncate text-xl font-semibold text-foreground">
-                    {pageMeta.title}
-                  </h1>
-                  <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    {pageMeta.subtitle}
-                  </p>
-                </div>
-
-                <div className="hidden md:flex items-center gap-2.5">
-                  <label className="relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground/70" />
-                    <input
-                      type="text"
-                      aria-label="Buscar"
-                      placeholder="Buscar modulo o activo..."
-                      className="eq-input h-9 w-56 rounded-full pl-9 pr-3 text-xs"
-                    />
-                  </label>
-                </div>
-
-                <button
-                  type="button"
-                  aria-label="Notificaciones"
-                  className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/55 bg-black/20 text-muted-foreground transition-colors hover:text-foreground hover:bg-white/6"
-                >
-                  <Bell className="size-4" />
-                  <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(0,180,196,0.9)]" />
-                </button>
-
-                <button
-                  type="button"
-                  className="inline-flex items-center gap-2.5 rounded-full border border-border/55 bg-black/20 px-2.5 py-1.5 text-left transition-colors hover:bg-white/6"
-                >
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-xs font-semibold text-primary shadow-[0_0_12px_rgba(0,180,196,0.22)]">
-                    {userInitials}
-                  </span>
-                  <span className="hidden sm:block">
-                    <span className="block text-xs font-medium leading-tight text-foreground">
-                      {userName}
-                    </span>
-                    <span className="block text-[10px] leading-tight text-muted-foreground">
-                      Cuenta verificada
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </header>
+        <div className="mx-auto w-full max-w-[1680px] px-4 pb-20 pt-4 sm:px-6 lg:px-8 2xl:px-10">
+          <DashboardHeader
+            title={pageMeta.title}
+            subtitle={pageMeta.subtitle}
+            userName={userName}
+            userInitials={userInitials}
+          />
           <main>{children}</main>
         </div>
         <Footer />
@@ -592,7 +557,7 @@ export default function DashboardShell({
               <Link
                 key={item.href}
                 href={item.href}
-                className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-xl"
+                className="flex flex-col items-center gap-0.5 px-2 py-1 rounded-sm"
               >
                 <span
                   className="transition-all duration-200"

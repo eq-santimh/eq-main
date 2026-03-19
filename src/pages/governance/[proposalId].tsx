@@ -81,7 +81,7 @@ export default function VotingPage() {
                     setSubmitted(false);
                   }}
                   className={[
-                    "rounded-xl border",
+                    "rounded-sm border",
                     active
                       ? "border-primary bg-primary/15 text-foreground shadow-[0_0_0_1px_rgba(0,180,196,0.35)]"
                       : "border-border/60 bg-black/20 hover:bg-white/5",
@@ -93,7 +93,7 @@ export default function VotingPage() {
             })}
           </div>
 
-          <div className="mt-6 rounded-2xl border border-border/40 bg-black/20 p-5">
+          <div className="mt-6 rounded-sm border border-border/40 bg-black/20 p-5">
             <div className="flex flex-wrap items-center justify-between gap-4">
               <div>
                 <div className="text-xs text-muted-foreground">Tu estado</div>

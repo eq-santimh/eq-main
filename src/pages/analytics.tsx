@@ -236,7 +236,7 @@ export default function AnalyticsPage() {
                 Simulación de reinversión
               </h3>
             </div>
-            <div className="rounded-xl border border-border/40 bg-black/20 p-4 text-right">
+            <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-right">
               <div className="text-xs text-muted-foreground">Capital proyectado</div>
               <div className="mt-1 text-2xl font-semibold text-primary">
                 ${prediction.final.toLocaleString(undefined, { maximumFractionDigits: 0 })}

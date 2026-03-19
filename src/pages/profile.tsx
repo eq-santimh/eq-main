@@ -264,7 +264,7 @@ export default function ProfilePage() {
             <Field label="Ciudad" value={profile.city} />
             <Field label="Estado/Provincia" value={profile.state} />
             <Field label="Pais seleccionado" value={profile.country} />
-            <div className="rounded-xl border border-border/45 bg-black/20 p-3 sm:col-span-2">
+            <div className="rounded-sm border border-border/45 bg-black/20 p-3 sm:col-span-2">
               <div className="text-[11px] text-muted-foreground">Paises disponibles</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {profile.availableCountries.map((country) => (
@@ -286,7 +286,7 @@ export default function ProfilePage() {
 
         <section className="eq-card eq-section-line">
           <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">Seguridad</div>
-          <div className="mt-4 flex items-center justify-between rounded-xl border border-border/40 bg-black/20 px-4 py-3">
+          <div className="mt-4 flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-4 py-3">
             <div>
               <div className="text-xs text-muted-foreground">Two-Factor Authentication</div>
               <div className="mt-1 text-sm text-foreground">
@@ -296,7 +296,7 @@ export default function ProfilePage() {
             <ToggleView enabled={twoFactorEnabled} />
           </div>
 
-          <div className="mt-4 overflow-x-auto rounded-xl border border-border/40">
+          <div className="mt-4 overflow-x-auto rounded-sm border border-border/40">
             <table className="w-full min-w-[620px] text-left text-xs">
               <thead className="bg-white/5 text-muted-foreground">
                 <tr>
@@ -324,7 +324,7 @@ export default function ProfilePage() {
 
         <section className="eq-card eq-section-line">
           <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">Wallet</div>
-          <div className="mt-3 rounded-xl border border-primary/30 bg-primary/8 px-4 py-3">
+          <div className="mt-3 rounded-sm border border-primary/30 bg-primary/8 px-4 py-3">
             <div className="text-xs text-muted-foreground">Balance total en USD</div>
             <div className="mt-1 text-2xl font-semibold text-primary">
               ${totalWalletBalanceUsd.toLocaleString("en-US", { maximumFractionDigits: 2 })}
@@ -332,7 +332,7 @@ export default function ProfilePage() {
           </div>
 
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Wallets conectadas
               </div>
@@ -340,7 +340,7 @@ export default function ProfilePage() {
                 {connectedWallets.map((wallet) => (
                   <div
                     key={wallet.id}
-                    className="rounded-lg border border-border/35 bg-black/25 p-3 text-xs"
+                    className="rounded-sm border border-border/35 bg-black/25 p-3 text-xs"
                   >
                     <div className="font-medium text-foreground">{wallet.type}</div>
                     <div className="mt-1 text-muted-foreground">{wallet.address}</div>
@@ -350,7 +350,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Transacciones recientes
               </div>
@@ -358,7 +358,7 @@ export default function ProfilePage() {
                 {recentTransactions.map((transaction) => (
                   <div
                     key={transaction.id}
-                    className="rounded-lg border border-border/35 bg-black/25 p-3 text-xs"
+                    className="rounded-sm border border-border/35 bg-black/25 p-3 text-xs"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-medium text-foreground">{transaction.type}</span>
@@ -385,13 +385,13 @@ export default function ProfilePage() {
             Cuentas vinculadas
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Cuentas bancarias
               </div>
               <div className="mt-3 space-y-2">
                 {linkedBankAccounts.map((account) => (
-                  <div key={account.id} className="rounded-lg border border-border/35 bg-black/25 p-3">
+                  <div key={account.id} className="rounded-sm border border-border/35 bg-black/25 p-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-foreground">{account.bank}</span>
                       <StatusPill label={account.verification} />
@@ -404,13 +404,13 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Metodos de pago
               </div>
               <div className="mt-3 space-y-2">
                 {paymentMethods.map((method) => (
-                  <div key={method.id} className="rounded-lg border border-border/35 bg-black/25 p-3">
+                  <div key={method.id} className="rounded-sm border border-border/35 bg-black/25 p-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-foreground">
                         {method.cardType} •••• {method.last4}
@@ -461,7 +461,7 @@ export default function ProfilePage() {
               selected={preferences.timezone}
               options={preferences.availableTimezones}
             />
-            <div className="rounded-xl border border-border/45 bg-black/20 p-3">
+            <div className="rounded-sm border border-border/45 bg-black/20 p-3">
               <div className="text-[11px] text-muted-foreground">Dark Mode</div>
               <div className="mt-2">
                 <ToggleView enabled={preferences.darkMode} />
@@ -476,7 +476,7 @@ export default function ProfilePage() {
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-xl border border-border/45 bg-black/20 p-3">
+    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
       <div className="text-[11px] text-muted-foreground">{label}</div>
       <div className="mt-1 text-sm text-foreground">{value}</div>
     </div>
@@ -485,7 +485,7 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function SwitchLine({ label, enabled }: { label: string; enabled: boolean }) {
   return (
-    <div className="rounded-xl border border-border/45 bg-black/20 p-3">
+    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
       <div className="text-xs text-foreground">{label}</div>
       <div className="mt-2">
         <ToggleView enabled={enabled} />
@@ -504,7 +504,7 @@ function OptionList({
   options: string[];
 }) {
   return (
-    <div className="rounded-xl border border-border/45 bg-black/20 p-3">
+    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
       <div className="text-[11px] text-muted-foreground">{label}</div>
       <div className="mt-1 text-sm text-foreground">Seleccionado: {selected}</div>
       <div className="mt-2 flex flex-wrap gap-1.5">

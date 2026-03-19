@@ -64,7 +64,7 @@ export default function MyOrdersPage() {
           </div>
 
           {orders.length === 0 ? (
-            <div className="mt-6 rounded-2xl border border-border/40 bg-black/20 p-6 text-sm text-muted-foreground">
+            <div className="mt-6 rounded-sm border border-border/40 bg-black/20 p-6 text-sm text-muted-foreground">
               No hay órdenes todavía. Coloca una orden en el Terminal para verla
               aquí.
             </div>
@@ -73,7 +73,7 @@ export default function MyOrdersPage() {
               {orders.slice(0, 20).map((o) => (
                 <div
                   key={o.id}
-                  className="rounded-xl border border-border/40 bg-black/20 p-4 flex flex-wrap items-center justify-between gap-4"
+                  className="rounded-sm border border-border/40 bg-black/20 p-4 flex flex-wrap items-center justify-between gap-4"
                 >
                   <div>
                     <div className="text-xs text-muted-foreground">Orden</div>

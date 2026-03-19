@@ -125,7 +125,7 @@ export default function DepositPage() {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-3 rounded-2xl border border-border/40 bg-black/20 p-5">
+            <div className="mt-5 grid gap-3 rounded-sm border border-border/40 bg-black/20 p-5">
               <div className="flex items-center justify-between gap-4">
                 <div className="text-sm text-muted-foreground">
                   Valor estimado (USD)
@@ -185,13 +185,13 @@ export default function DepositPage() {
                 Instrucciones de pago
               </h3>
               <div className="mt-4 grid gap-3">
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
                   1) Envía {amount || "0"} {asset} a la dirección demo.
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
                   2) El backend convierte instantáneamente a {stable}.
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
                   3) Se emiten tokens de inversión (RWA) contra el valor
                   estable congelado.
                 </div>

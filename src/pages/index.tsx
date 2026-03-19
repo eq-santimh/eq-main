@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 
 import { projects } from "@/components/equity/mockData";
+import { Header } from "@/components/header";
 
 /* ── Stat card ── */
 type StatProps = {
@@ -50,9 +51,9 @@ const colorMap = {
 function StatCard({ label, value, sub, icon, color }: StatProps) {
   const c = colorMap[color];
   return (
-    <div className={`rounded-2xl border p-4 backdrop-blur ${c.bg}`}>
+    <div className={`rounded-sm border p-4 backdrop-blur ${c.bg}`}>
       <div className="flex items-start justify-between">
-        <div className={`rounded-lg p-1.5 bg-black/20 ${c.icon}`}>{icon}</div>
+        <div className={`rounded-sm p-1.5 bg-black/20 ${c.icon}`}>{icon}</div>
       </div>
       <div className={`mt-3 text-2xl font-bold leading-none ${c.value}`}>
         {value}
@@ -76,8 +77,8 @@ type ModuleProps = {
 function ModuleCard({ href, label, description, icon, accent, iconColor }: ModuleProps) {
   return (
     <Link href={href} className="group block">
-      <div className="h-full rounded-2xl border border-border/40 bg-card/10 p-5 backdrop-blur transition-all duration-200 hover:bg-white/4 hover:border-border/70">
-        <div className={`inline-flex items-center justify-center rounded-xl p-2.5 border ${accent}`}>
+      <div className="h-full rounded-sm border border-border/40 bg-card/10 p-5 backdrop-blur transition-all duration-200 hover:bg-white/4 hover:border-border/70">
+        <div className={`inline-flex items-center justify-center rounded-sm p-2.5 border ${accent}`}>
           <span className={iconColor}>{icon}</span>
         </div>
         <div className="mt-4 text-sm font-semibold text-foreground">{label}</div>
@@ -100,6 +101,8 @@ export default function Home() {
       <Head>
         <title>EQ — Dashboard</title>
       </Head>
+    
+      {/* <Header /> */}
 
       <div className="eq-page">
         {/* ── Hero ── */}

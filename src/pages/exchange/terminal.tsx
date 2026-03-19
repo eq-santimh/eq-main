@@ -113,13 +113,13 @@ export default function ExchangeTerminalPage() {
             </div>
 
             <div className="mt-5 grid gap-6 md:grid-cols-2">
-              <div className="rounded-2xl border border-border/40 bg-black/20 p-4">
+              <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                 <div className="text-sm font-semibold text-foreground">Compra</div>
                 <div className="mt-3 grid gap-2">
                   {book.buy.map((l, idx) => (
                     <div
                       key={`${l.priceUsd}-${idx}`}
-                      className="flex items-center justify-between gap-3 rounded-xl border border-border/30 bg-black/10 px-3 py-2"
+                      className="flex items-center justify-between gap-3 rounded-sm border border-border/30 bg-black/10 px-3 py-2"
                     >
                       <div className="text-sm text-primary font-semibold">
                         ${l.priceUsd.toFixed(2)}
@@ -135,13 +135,13 @@ export default function ExchangeTerminalPage() {
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-border/40 bg-black/20 p-4">
+              <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                 <div className="text-sm font-semibold text-foreground">Venta</div>
                 <div className="mt-3 grid gap-2">
                   {book.sell.map((l, idx) => (
                     <div
                       key={`${l.priceUsd}-${idx}`}
-                      className="flex items-center justify-between gap-3 rounded-xl border border-border/30 bg-black/10 px-3 py-2"
+                      className="flex items-center justify-between gap-3 rounded-sm border border-border/30 bg-black/10 px-3 py-2"
                     >
                       <div className="text-sm text-primary font-semibold">
                         ${l.priceUsd.toFixed(2)}
@@ -173,7 +173,7 @@ export default function ExchangeTerminalPage() {
                       type="button"
                       onClick={() => setSide("BUY")}
                       className={[
-                        "flex-1 rounded-xl",
+                        "flex-1 rounded-sm",
                         side === "BUY"
                           ? "bg-primary text-primary-foreground hover:bg-primary/90"
                           : "border border-border/60 bg-black/20 hover:bg-white/5 text-foreground",
@@ -185,7 +185,7 @@ export default function ExchangeTerminalPage() {
                       type="button"
                       onClick={() => setSide("SELL")}
                       className={[
-                        "flex-1 rounded-xl",
+                        "flex-1 rounded-sm",
                         side === "SELL"
                           ? "bg-primary text-primary-foreground hover:bg-primary/90"
                           : "border border-border/60 bg-black/20 hover:bg-white/5 text-foreground",
@@ -218,7 +218,7 @@ export default function ExchangeTerminalPage() {
                   />
                 </div>
 
-                <div className="rounded-2xl border border-border/40 bg-black/20 p-4">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                   <div className="flex items-center justify-between">
                     <div className="text-sm text-muted-foreground">Total</div>
                     <div className="text-lg font-semibold text-primary">

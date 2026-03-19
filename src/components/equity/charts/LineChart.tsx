@@ -23,7 +23,7 @@ export default function LineChart({
   const d = points.map((p, i) => `${i === 0 ? "M" : "L"} ${p.x} ${p.y}`).join(" ");
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl border border-border/40 bg-black/20 p-4">
+    <div className="w-full overflow-hidden rounded-sm border border-border/40 bg-black/20 p-4">
       <div className="flex items-center justify-between">
         <div>
           <div className="text-sm text-muted-foreground">Crecimiento histórico (demo)</div>

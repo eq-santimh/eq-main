@@ -55,7 +55,7 @@ function LightboxModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl rounded-2xl overflow-hidden border border-white/10 bg-[#0e0d1a] shadow-2xl"
+        className="relative w-full max-w-2xl rounded-sm overflow-hidden border border-white/10 bg-[#0e0d1a] shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Full image */}
@@ -86,19 +86,19 @@ function LightboxModal({
         <div className="p-5 space-y-4">
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-xl bg-black/30 border border-border/30 p-3 text-center">
+            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
               <div className="text-xs text-muted-foreground">Precio Token</div>
               <div className="mt-1 text-lg font-bold text-foreground">
                 ${project.pricePerTokenUsd.toLocaleString("en-US")}
               </div>
             </div>
-            <div className="rounded-xl bg-black/30 border border-border/30 p-3 text-center">
+            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
               <div className="text-xs text-muted-foreground">ROI Anual</div>
               <div className="mt-1 text-lg font-bold text-primary">
                 {project.roiAnnual.toFixed(1)}%
               </div>
             </div>
-            <div className="rounded-xl bg-black/30 border border-border/30 p-3 text-center">
+            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
               <div className="text-xs text-muted-foreground">Supply Total</div>
               <div className="mt-1 text-lg font-bold text-foreground">
                 {formatSupply(project.totalSupply)}
@@ -226,19 +226,19 @@ function ProjectCard({
 
         {/* Stats */}
         <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-xl bg-black/20 border border-border/30 py-2 px-1">
+          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
             <div className="text-[10px] text-muted-foreground leading-tight">Token Price</div>
             <div className="text-sm font-semibold text-foreground mt-0.5">
               ${project.pricePerTokenUsd.toLocaleString("en-US")}
             </div>
           </div>
-          <div className="rounded-xl bg-black/20 border border-border/30 py-2 px-1">
+          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
             <div className="text-[10px] text-muted-foreground leading-tight">Annual Return</div>
             <div className="text-sm font-semibold text-primary mt-0.5">
               {project.roiAnnual.toFixed(1)}%
             </div>
           </div>
-          <div className="rounded-xl bg-black/20 border border-border/30 py-2 px-1">
+          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
             <div className="text-[10px] text-muted-foreground leading-tight">Total Supply</div>
             <div className="text-sm font-semibold text-foreground mt-0.5">
               {formatSupply(project.totalSupply)}

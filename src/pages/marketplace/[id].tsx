@@ -341,8 +341,8 @@ function InfoCard({
   accent?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-border/40 bg-black/25 p-4">
-      <div className={`inline-flex rounded-xl border border-border/30 bg-black/20 p-2 ${accent}`}>
+    <div className="rounded-sm border border-border/40 bg-black/25 p-4">
+      <div className={`inline-flex rounded-sm border border-border/30 bg-black/20 p-2 ${accent}`}>
         {icon}
       </div>
       <div className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
@@ -455,7 +455,7 @@ export default function ProjectDetailPage() {
                 Descripcion General
               </h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{detail.briefDescription}</p>
-              <div className="mt-4 rounded-xl border border-border/40 bg-black/20 p-3">
+              <div className="mt-4 rounded-sm border border-border/40 bg-black/20 p-3">
                 <div className="text-xs text-muted-foreground">Tipo de propiedad</div>
                 <div className="mt-1 text-sm font-semibold text-foreground">{detail.projectType}</div>
               </div>
@@ -466,21 +466,21 @@ export default function ProjectDetailPage() {
                 Caracteristicas Clave
               </h3>
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="text-xs text-muted-foreground">Ano de construccion / entrega</div>
                   <div className="mt-1 text-sm font-semibold text-foreground">
                     {detail.yearBuiltOrDelivery}
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="text-xs text-muted-foreground">Area total</div>
                   <div className="mt-1 text-sm font-semibold text-foreground">{detail.totalArea}</div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="text-xs text-muted-foreground">Tasa de ocupacion</div>
                   <div className="mt-1 text-sm font-semibold text-foreground">{detail.occupancyRate}</div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="text-xs text-muted-foreground">Progreso de fondeo</div>
                   <div className="mt-1 text-sm font-semibold text-foreground">{project.progressFondeo}%</div>
                 </div>
@@ -489,7 +489,7 @@ export default function ProjectDetailPage() {
                 {detail.ratings.map((rating) => (
                   <div
                     key={rating}
-                    className="flex items-center gap-2 rounded-xl border border-border/30 bg-black/15 px-3 py-2"
+                    className="flex items-center gap-2 rounded-sm border border-border/30 bg-black/15 px-3 py-2"
                   >
                     <ClipboardCheck className="size-4 text-primary" />
                     <span className="text-sm text-foreground">{rating}</span>
@@ -506,7 +506,7 @@ export default function ProjectDetailPage() {
                 {detail.nearbyAmenities.map((amenity) => (
                   <div
                     key={`${amenity.name}-${amenity.eta}`}
-                    className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-border/40 bg-black/20 px-4 py-3"
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-sm border border-border/40 bg-black/20 px-4 py-3"
                   >
                     <div className="inline-flex items-center gap-2 text-sm font-medium text-foreground">
                       <MapPinned className="size-4 text-primary" />
@@ -525,7 +525,7 @@ export default function ProjectDetailPage() {
                 Cumplimiento Regulatorio
               </h3>
               <div className="mt-4 grid gap-3">
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                   <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
                     <ShieldCheck className="size-4 text-primary" />
                     Entidad gubernamental
@@ -534,7 +534,7 @@ export default function ProjectDetailPage() {
                     {detail.regulatory.authority}
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                   <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                     Permisos obtenidos
                   </div>
@@ -548,7 +548,7 @@ export default function ProjectDetailPage() {
                   </ul>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+                  <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                     <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                       Estandares aplicables
                     </div>
@@ -563,7 +563,7 @@ export default function ProjectDetailPage() {
                       ))}
                     </div>
                   </div>
-                  <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+                  <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                     <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                       Frecuencia de auditorias
                     </div>
@@ -572,7 +572,7 @@ export default function ProjectDetailPage() {
                     </div>
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-4">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                   <div className="text-xs uppercase tracking-[0.14em] text-muted-foreground">
                     Documentos legales disponibles
                   </div>
@@ -580,7 +580,7 @@ export default function ProjectDetailPage() {
                     {detail.regulatory.availableDocs.map((doc) => (
                       <div
                         key={doc}
-                        className="rounded-lg border border-border/30 bg-black/20 px-3 py-2 text-sm text-foreground"
+                        className="rounded-sm border border-border/30 bg-black/20 px-3 py-2 text-sm text-foreground"
                       >
                         {doc}
                       </div>
@@ -602,7 +602,7 @@ export default function ProjectDetailPage() {
                   return (
                     <div
                       key={img.label}
-                      className="overflow-hidden rounded-2xl border border-border/40 bg-black/20"
+                      className="overflow-hidden rounded-sm border border-border/40 bg-black/20"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
@@ -624,7 +624,7 @@ export default function ProjectDetailPage() {
                 Detalles Blockchain / Tokenizacion
               </h3>
               <div className="mt-4 space-y-3 text-sm">
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <Network className="size-4 text-primary" />
                     Red y estandar
@@ -633,7 +633,7 @@ export default function ProjectDetailPage() {
                     {detail.blockchain.network} · {detail.blockchain.tokenStandard}
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <Layers className="size-4 text-blue-400" />
                     Supply total y disponible
@@ -643,7 +643,7 @@ export default function ProjectDetailPage() {
                     {formatCompactTokens(detail.blockchain.availableTokens)} disponibles
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <SquareChartGantt className="size-4 text-violet-400" />
                     Direccion de contrato
@@ -652,7 +652,7 @@ export default function ProjectDetailPage() {
                     {detail.blockchain.contractAddress}
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <Lock className="size-4 text-emerald-400" />
                     Medidas de seguridad
@@ -666,7 +666,7 @@ export default function ProjectDetailPage() {
                     ))}
                   </ul>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 p-3">
+                <div className="rounded-sm border border-border/40 bg-black/20 p-3">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <Globe className="size-4 text-amber-400" />
                     Utilidad del token
@@ -681,7 +681,7 @@ export default function ProjectDetailPage() {
                 Terminos de Inversion
               </h3>
               <div className="mt-4 space-y-2 text-sm">
-                <div className="flex items-center justify-between rounded-xl border border-border/40 bg-black/20 px-3 py-2.5">
+                <div className="flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
                   <span className="inline-flex items-center gap-2 text-muted-foreground">
                     <Banknote className="size-4 text-primary" />
                     Inversion minima
@@ -690,7 +690,7 @@ export default function ProjectDetailPage() {
                     {formatUsd(detail.investmentTerms.minimumInvestmentUsd)}
                   </span>
                 </div>
-                <div className="flex items-center justify-between rounded-xl border border-border/40 bg-black/20 px-3 py-2.5">
+                <div className="flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
                   <span className="inline-flex items-center gap-2 text-muted-foreground">
                     <CalendarClock className="size-4 text-blue-400" />
                     Lock-up
@@ -699,7 +699,7 @@ export default function ProjectDetailPage() {
                     {detail.investmentTerms.lockupPeriod}
                   </span>
                 </div>
-                <div className="flex items-center justify-between rounded-xl border border-border/40 bg-black/20 px-3 py-2.5">
+                <div className="flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
                   <span className="inline-flex items-center gap-2 text-muted-foreground">
                     <CircleDollarSign className="size-4 text-emerald-400" />
                     Dividendos
@@ -708,7 +708,7 @@ export default function ProjectDetailPage() {
                     {detail.investmentTerms.dividendFrequency}
                   </span>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 px-3 py-2.5">
+                <div className="rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <Vote className="size-4 text-violet-400" />
                     Derechos de voto
@@ -717,7 +717,7 @@ export default function ProjectDetailPage() {
                     {detail.investmentTerms.votingRights}
                   </div>
                 </div>
-                <div className="rounded-xl border border-border/40 bg-black/20 px-3 py-2.5">
+                <div className="rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
                   <div className="inline-flex items-center gap-2 text-muted-foreground">
                     <ChartNoAxesColumnIncreasing className="size-4 text-amber-400" />
                     Mercado secundario
@@ -740,7 +740,7 @@ export default function ProjectDetailPage() {
                 <p className="text-sm leading-relaxed text-muted-foreground">
                   {detail.locationInfo.growthPotential}
                 </p>
-                <div className="overflow-hidden rounded-2xl border border-border/40">
+                <div className="overflow-hidden rounded-sm border border-border/40">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={detail.locationInfo.mapImageUrl}
