@@ -1,96 +1,11 @@
 import Head from "next/head";
 import Link from "next/link";
-import {
-  Activity,
-  ArrowUpRight,
-  BarChart3,
-  Coins,
-  Grid2X2,
-  Layers,
-  Shield,
-  TrendingUp,
-  Wallet,
-  Clock,
-} from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { projects } from "@/components/equity/mockData";
-import { Header } from "@/components/header";
-
-/* ── Stat card ── */
-type StatProps = {
-  label: string;
-  value: string;
-  sub?: string;
-  icon: React.ReactNode;
-  color: "primary" | "green" | "amber" | "red";
-};
-
-const colorMap = {
-  primary: {
-    bg: "bg-primary/10 border-primary/20",
-    icon: "text-primary",
-    value: "text-primary",
-  },
-  green: {
-    bg: "bg-emerald-500/10 border-emerald-500/20",
-    icon: "text-emerald-400",
-    value: "text-emerald-400",
-  },
-  amber: {
-    bg: "bg-amber-500/10 border-amber-500/20",
-    icon: "text-amber-400",
-    value: "text-amber-400",
-  },
-  red: {
-    bg: "bg-red-500/10 border-red-500/20",
-    icon: "text-red-400",
-    value: "text-red-400",
-  },
-};
-
-function StatCard({ label, value, sub, icon, color }: StatProps) {
-  const c = colorMap[color];
-  return (
-    <div className={`rounded-sm border p-4 backdrop-blur ${c.bg}`}>
-      <div className="flex items-start justify-between">
-        <div className={`rounded-sm p-1.5 bg-black/20 ${c.icon}`}>{icon}</div>
-      </div>
-      <div className={`mt-3 text-2xl font-bold leading-none ${c.value}`}>
-        {value}
-      </div>
-      <div className="mt-1.5 text-xs text-muted-foreground">{label}</div>
-      {sub && <div className="mt-0.5 text-[10px] text-muted-foreground/60">{sub}</div>}
-    </div>
-  );
-}
-
-/* ── Module card ── */
-type ModuleProps = {
-  href: string;
-  label: string;
-  description: string;
-  icon: React.ReactNode;
-  accent: string; // tailwind bg+border classes
-  iconColor: string;
-};
-
-function ModuleCard({ href, label, description, icon, accent, iconColor }: ModuleProps) {
-  return (
-    <Link href={href} className="group block">
-      <div className="h-full rounded-sm border border-border/40 bg-card/10 p-5 backdrop-blur transition-all duration-200 hover:bg-white/4 hover:border-border/70">
-        <div className={`inline-flex items-center justify-center rounded-sm p-2.5 border ${accent}`}>
-          <span className={iconColor}>{icon}</span>
-        </div>
-        <div className="mt-4 text-sm font-semibold text-foreground">{label}</div>
-        <div className="mt-1 text-xs text-muted-foreground leading-relaxed">{description}</div>
-        <div className="mt-3 flex items-center gap-1 text-xs text-muted-foreground/60 group-hover:text-muted-foreground transition-colors">
-          <span>Abrir</span>
-          <ArrowUpRight className="size-3" />
-        </div>
-      </div>
-    </Link>
-  );
-}
+import { ModuleCard, StatCard } from "@/components/home/cards";
+import { HOME_MODULES, HOME_STATS } from "@/components/home/home-data";
+import { StatusBadge } from "@/components/ui/status-badge";
 
 /* ── Main ── */
 export default function Home() {
@@ -102,19 +17,18 @@ export default function Home() {
         <title>EQ — Dashboard</title>
       </Head>
     
-      {/* <Header /> */}
-
-      <div className="eq-page">
+      <div className="eq-page pt-24 sm:pt-28">
         {/* ── Hero ── */}
         <section className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
           {/* Left: headline */}
           <div className="eq-card relative overflow-hidden">
             <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
             <div className="relative">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border/50 bg-black/20 px-3 py-1 text-xs text-foreground/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                RWA · Multicripto · Gobernanza · Liquidez
-              </div>
+              <StatusBadge
+                variant="info"
+                label="RWA · Multicripto · Gobernanza · Liquidez"
+                className="normal-case tracking-[0.06em] text-foreground/80"
+              />
 
               <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
                 Dashboard de{" "}
@@ -145,34 +59,9 @@ export default function Home() {
 
           {/* Right: stats */}
           <div className="grid grid-cols-2 gap-3 content-start">
-            <StatCard
-              label="Portafolio Total"
-              value="$18,420"
-              sub="↑ $648 este mes"
-              icon={<TrendingUp className="size-4" />}
-              color="primary"
-            />
-            <StatCard
-              label="ROI Anual Est."
-              value="+11.2%"
-              sub="Promedio ponderado"
-              icon={<BarChart3 className="size-4" />}
-              color="green"
-            />
-            <StatCard
-              label="Dividendos Pend."
-              value="$0"
-              sub="Próximo: 2026-03-30"
-              icon={<Clock className="size-4" />}
-              color="amber"
-            />
-            <StatCard
-              label="Activos RWA"
-              value="3"
-              sub="Tokens en portafolio"
-              icon={<Layers className="size-4" />}
-              color="primary"
-            />
+            {HOME_STATS.map((stat) => (
+              <StatCard key={stat.label} {...stat} />
+            ))}
           </div>
         </section>
 
@@ -182,54 +71,9 @@ export default function Home() {
             Módulos
           </div>
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-3">
-            <ModuleCard
-              href="/marketplace"
-              label="Marketplace"
-              description="RWA tokenizados, filtros y fondeo en tiempo real."
-              icon={<Grid2X2 className="size-5" />}
-              accent="bg-primary/10 border-primary/25"
-              iconColor="text-primary"
-            />
-            <ModuleCard
-              href="/wallet-hub"
-              label="Wallet Hub"
-              description="Balances, conversión multicripto y QR de pago."
-              icon={<Wallet className="size-5" />}
-              accent="bg-blue-500/10 border-blue-500/25"
-              iconColor="text-blue-400"
-            />
-            <ModuleCard
-              href="/governance"
-              label="Gobernanza"
-              description="Propuestas on-chain. 1 token = 1 voto."
-              icon={<Shield className="size-5" />}
-              accent="bg-violet-500/10 border-violet-500/25"
-              iconColor="text-violet-400"
-            />
-            <ModuleCard
-              href="/analytics"
-              label="Analytics"
-              description="Portafolio, diversificación e interés compuesto."
-              icon={<BarChart3 className="size-5" />}
-              accent="bg-emerald-500/10 border-emerald-500/25"
-              iconColor="text-emerald-400"
-            />
-            <ModuleCard
-              href="/dividends"
-              label="Dividendos"
-              description="Historial de pagos y auto-inversión de rendimientos."
-              icon={<Coins className="size-5" />}
-              accent="bg-amber-500/10 border-amber-500/25"
-              iconColor="text-amber-400"
-            />
-            <ModuleCard
-              href="/exchange/terminal"
-              label="Mercado Secundario"
-              description="Order book P2P y terminal de trading."
-              icon={<Activity className="size-5" />}
-              accent="bg-orange-500/10 border-orange-500/25"
-              iconColor="text-orange-400"
-            />
+            {HOME_MODULES.map((module) => (
+              <ModuleCard key={module.href} {...module} />
+            ))}
           </div>
         </section>
 

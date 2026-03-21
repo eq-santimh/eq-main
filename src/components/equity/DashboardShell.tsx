@@ -2,154 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import {
-  Activity,
-  BarChart3,
-  Grid2X2,
-  LayoutDashboard,
-  Pin,
-  PinOff,
-  EyeOff,
-  Shield,
-  Wallet,
-  Coins,
-} from "lucide-react";
-
+import { Pin, PinOff, EyeOff } from "lucide-react";
+import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { DashboardHeader } from "@/components/header";
-import { cn } from "@/lib/utils";
+import {
+  DASHBOARD_NAV,
+  getDashboardPageMeta,
+  isDashboardNavActive,
+} from "@/components/equity/dashboard-shell.config";
 
-type NavItem = {
-  href: string;
-  label: string;
-  shortLabel: string;
-  icon: React.ReactNode;
-  color: string;
-};
+import { cn } from "@/lib/utils";
 
 type SidebarMode = "auto" | "pinned" | "hidden";
 
 const SIDEBAR_FULL_W = 210;
 const SIDEBAR_ICON_W = 56;
 const SIDEBAR_HIDDEN_W = 20;
-
-const nav: NavItem[] = [
-  {
-    href: "/",
-    label: "Dashboard",
-    shortLabel: "Home",
-    icon: <LayoutDashboard className="size-4 shrink-0" />,
-    color: "#00B4C4",
-  },
-  {
-    href: "/marketplace",
-    label: "Marketplace",
-    shortLabel: "Market",
-    icon: <Grid2X2 className="size-4 shrink-0" />,
-    color: "#4C8D99",
-  },
-  {
-    href: "/wallet-hub",
-    label: "Wallet Hub",
-    shortLabel: "Wallet",
-    icon: <Wallet className="size-4 shrink-0" />,
-    color: "#f59e0b",
-  },
-  {
-    href: "/governance",
-    label: "Gobernanza",
-    shortLabel: "Votes",
-    icon: <Shield className="size-4 shrink-0" />,
-    color: "#a78bfa",
-  },
-  {
-    href: "/analytics",
-    label: "Analytics",
-    shortLabel: "Stats",
-    icon: <BarChart3 className="size-4 shrink-0" />,
-    color: "#34d399",
-  },
-  {
-    href: "/dividends",
-    label: "Dividendos",
-    shortLabel: "Divs",
-    icon: <Coins className="size-4 shrink-0" />,
-    color: "#fbbf24",
-  },
-  {
-    href: "/exchange/terminal",
-    label: "Mercado Secundario",
-    shortLabel: "Trade",
-    icon: <Activity className="size-4 shrink-0" />,
-    color: "#f97316",
-  },
-];
-
-function isNavActive(href: string, pathname: string) {
-  if (href === "/") return pathname === "/";
-  return pathname === href || pathname.startsWith(href + "/");
-}
-
-function getPageMeta(pathname: string) {
-  if (pathname === "/") {
-    return {
-      title: "Dashboard",
-      subtitle: "Resumen de portafolio y actividad reciente.",
-    };
-  }
-  if (pathname === "/marketplace") {
-    return {
-      title: "Marketplace",
-      subtitle: "Explora oportunidades RWA y filtros de inversion.",
-    };
-  }
-  if (pathname.startsWith("/marketplace/")) {
-    return {
-      title: "Detalle de activo",
-      subtitle: "Informacion de proyecto, riesgo y rendimiento esperado.",
-    };
-  }
-  if (pathname === "/wallet-hub") {
-    return {
-      title: "Wallet Hub",
-      subtitle: "Balances multicripto, conversiones y pagos.",
-    };
-  }
-  if (pathname === "/governance") {
-    return {
-      title: "Gobernanza",
-      subtitle: "Gestion de propuestas y votos on-chain.",
-    };
-  }
-  if (pathname === "/analytics") {
-    return {
-      title: "Analytics",
-      subtitle: "Metricas de riesgo, ROI y distribucion de activos.",
-    };
-  }
-  if (pathname === "/profile") {
-    return {
-      title: "Perfil",
-      subtitle: "Datos personales, seguridad y preferencias de cuenta.",
-    };
-  }
-  if (pathname === "/dividends") {
-    return {
-      title: "Dividendos",
-      subtitle: "Seguimiento de pagos y rendimiento distribuido.",
-    };
-  }
-  if (pathname.startsWith("/exchange")) {
-    return {
-      title: "Mercado Secundario",
-      subtitle: "Terminal de trading y liquidez P2P.",
-    };
-  }
-  return {
-    title: "EQ Platform",
-    subtitle: "Panel de control de activos tokenizados.",
-  };
-}
 
 export default function DashboardShell({
   children,
@@ -195,9 +63,10 @@ export default function DashboardShell({
         ? "Desfijar"
         : "Modo automático";
   const activeNavItem =
-    nav.find((item) => isNavActive(item.href, pathname)) ?? nav[0];
+    DASHBOARD_NAV.find((item) => isDashboardNavActive(item.href, pathname)) ??
+    DASHBOARD_NAV[0];
   const isHiddenIdle = sidebarMode === "hidden" && !hovered;
-  const pageMeta = getPageMeta(pathname);
+  const pageMeta = getDashboardPageMeta(pathname);
   const userName = "Jose Santiago";
   const userInitials = userName
     .split(" ")
@@ -208,14 +77,13 @@ export default function DashboardShell({
 
   return (
     <div className="relative min-h-screen bg-[#08070e] text-foreground overflow-x-hidden">
-      {/* Ambient atmosphere */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+      {/* <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-primary/8 blur-3xl" />
         <div className="absolute top-1/3 left-0 h-[300px] w-[300px] rounded-full bg-primary/5 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full bg-primary/6 blur-3xl" />
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(48,101,152,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(48,101,152,0.06)_1px,transparent_1px)] bg-size-[64px_64px]" />
         <div className="absolute left-1/2 top-0 h-px w-[800px] -translate-x-1/2 bg-linear-to-r from-transparent via-primary/25 to-transparent" />
-      </div>
+      </div> */}
 
       {/* ─── Desktop Sidebar ─── */}
       <aside
@@ -389,8 +257,8 @@ export default function DashboardShell({
 
           {/* ── Nav ── */}
           <nav className="flex flex-col justify-start flex-1 gap-0.5 px-2 overflow-y-auto overflow-x-hidden">
-            {nav.map((item) => {
-              const active = isNavActive(item.href, pathname);
+            {DASHBOARD_NAV.map((item) => {
+              const active = isDashboardNavActive(item.href, pathname);
               return (
                 <Link key={item.href} href={item.href}>
                   <div
@@ -537,13 +405,16 @@ export default function DashboardShell({
         )}
       >
         <div className="mx-auto w-full max-w-[1680px] px-4 pb-20 pt-4 sm:px-6 lg:px-8 2xl:px-10">
-          <DashboardHeader
-            title={pageMeta.title}
-            subtitle={pageMeta.subtitle}
-            userName={userName}
-            userInitials={userInitials}
-          />
-          <main>{children}</main>
+          <main className="pt-24 sm:pt-28">
+            <Header
+              title={pageMeta.title}
+              subtitle={pageMeta.subtitle}
+              userName={userName}
+              userInitials={userInitials}
+              desktopLeftOffset={sidebarMode === "pinned" ? 210 : sidebarMode === "hidden" ? 20 : 56}
+            />
+            {children}
+          </main>
         </div>
         <Footer />
       </div>
@@ -551,8 +422,8 @@ export default function DashboardShell({
       {/* ─── Mobile bottom nav ─── */}
       <nav className="fixed bottom-0 inset-x-0 z-50 lg:hidden border-t border-border/25 bg-[#08070e]/96 backdrop-blur-md">
         <div className="flex justify-around items-center px-1 py-2">
-          {nav.slice(0, 6).map((item) => {
-            const active = isNavActive(item.href, pathname);
+          {DASHBOARD_NAV.slice(0, 6).map((item) => {
+            const active = isDashboardNavActive(item.href, pathname);
             return (
               <Link
                 key={item.href}
