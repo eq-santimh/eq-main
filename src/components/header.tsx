@@ -129,23 +129,22 @@ export function Header({
            │  Para eliminarlo: borra este <div> completo.                      │
            │  Para reducir intensidad: baja los valores de opacidad (0.2/0.08)│
            └──────────────────────────────────────────────────────────────────┘ */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-24"
-        style={{
-          background:
-            `radial-gradient(ellipse 80% 60% at 50% 100%, rgba(${pageAccentRgb}, 0.2) 0%, rgba(${pageAccentRgb}, 0.08) 40%, transparent 72%)`,
-        }}
-        aria-hidden
-      />
-      {/* FIN DEL GLOW TURQUESA */}
-
       <nav className="relative mx-auto w-full max-w-[1680px] px-4 py-4 sm:px-6 lg:px-8 2xl:px-10">
         {/* GLOW SECUNDARIO: shadow turquesa debajo de la nav bar (box-shadow de la glass-surface).
              Complementa el radial-gradient de arriba. Para quitarlo: elimina la clase shadow-[…] */}
         <div
-          className="glass-surface"
+          className="glass-surface relative overflow-hidden"
           style={{ boxShadow: `0 8px 30px -18px rgba(${pageAccentRgb},0.45)` }}
         >
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-10"
+            style={{
+              background:
+                `radial-gradient(ellipse 80% 95% at 50% 100%, rgba(${pageAccentRgb},0.22) 0%, rgba(${pageAccentRgb},0.09) 45%, transparent 78%)`,
+            }}
+            aria-hidden
+          />
+
           <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
             <div className="flex min-w-0 items-center gap-3 sm:gap-4">
               <Link href="/" className="shrink-0">
