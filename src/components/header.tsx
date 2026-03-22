@@ -151,8 +151,8 @@ export function Header({
                 <Image
                   src="/logo-accent.png"
                   alt="EQUITY"
-                  width={160}
-                  height={48}
+                  width={120}
+                  height={36}
                   style={{
                     width: "auto",
                     height: "auto",

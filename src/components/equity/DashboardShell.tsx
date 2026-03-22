@@ -204,7 +204,7 @@ export default function DashboardShell({
                 <Image
                   src="/logo-accent.png"
                   alt="EQUITY"
-                  width={132}
+                  width={120}
                   height={24}
                   style={{ width: "auto", height: "auto" }}
                   priority
