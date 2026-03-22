@@ -1,4 +1,5 @@
 import React from "react";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 type Slice = { label: string; value: number; color: string };
 
@@ -43,7 +44,7 @@ export default function PieChart({ slices }: { slices: Slice[] }) {
                 />
                 <span className="text-sm text-muted-foreground">{s.label}</span>
               </div>
-              <span className="text-sm font-semibold text-foreground">{pct.toFixed(1)}%</span>
+              <FinancialFigure value={pct} format="percent" className="text-base text-foreground" />
             </div>
           );
         })}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 import { proposals } from "@/components/equity/mockData";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
 
 function formatTimeLeft(ms: number) {
@@ -29,18 +30,11 @@ export default function GovernanceCenterPage() {
       </Head>
 
       <div className="eq-page">
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Sistema de Gobernanza y Votación Activa
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Centro de Gobernanza (demo)
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Cada token equivale a un voto. Los resultados se registran en la
-            blockchain y son inmutables. Esta UI muestra el flujo completo.
-          </p>
-        </div>
+        <PageAccentHeader
+          eyebrow="Sistema de Gobernanza y Votación Activa"
+          title="Centro de Gobernanza (demo)"
+          description="Cada token equivale a un voto. Los resultados se registran en la blockchain y son inmutables. Esta UI muestra el flujo completo."
+        />
 
         <div className="grid gap-4 lg:grid-cols-2">
           {proposals.map((p) => {
@@ -48,7 +42,7 @@ export default function GovernanceCenterPage() {
             return (
               <div
                 key={p.id}
-                className="eq-card"
+                className="eq-card glass-hover"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>

@@ -1,11 +1,14 @@
 import React from "react";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 export default function LineChart({
   values,
   height = 240,
+  accentColor = "var(--eq-page-accent, #00B4C4)",
 }: {
   values: number[];
   height?: number;
+  accentColor?: string;
 }) {
   const width = 560;
   const pad = 24;
@@ -31,8 +34,8 @@ export default function LineChart({
         </div>
         <div className="text-right">
           <div className="text-xs text-muted-foreground">Último</div>
-          <div className="text-lg font-semibold text-primary">
-            ${values[values.length - 1]?.toFixed(0) ?? 0}
+          <div className="text-xl text-primary">
+            <FinancialFigure value={values[values.length - 1] ?? 0} format="currency" decimals={0} />
           </div>
         </div>
       </div>
@@ -60,7 +63,7 @@ export default function LineChart({
             );
           })}
 
-          <path d={d} fill="none" stroke="#00B4C4" strokeWidth="3" />
+          <path d={d} fill="none" stroke={accentColor} strokeWidth="3" />
 
           {points.map((p, i) => (
             <circle
@@ -69,7 +72,7 @@ export default function LineChart({
               cy={p.y}
               r="5"
               fill="#08070e"
-              stroke="#00B4C4"
+              stroke={accentColor}
               strokeWidth="2"
             />
           ))}

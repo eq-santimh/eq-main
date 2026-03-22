@@ -1,0 +1,92 @@
+'use client'
+
+import * as React from 'react'
+import { Dialog as RadixDialog } from 'radix-ui'
+import { X } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+
+const Dialog = RadixDialog.Root
+const DialogTrigger = RadixDialog.Trigger
+const DialogClose = RadixDialog.Close
+const DialogPortal = RadixDialog.Portal
+
+const DialogOverlay = React.forwardRef<
+  React.ComponentRef<typeof RadixDialog.Overlay>,
+  React.ComponentPropsWithoutRef<typeof RadixDialog.Overlay>
+>(({ className, ...props }, ref) => (
+  <RadixDialog.Overlay
+    ref={ref}
+    className={cn(
+      'fixed inset-0 z-50 bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
+      className,
+    )}
+    {...props}
+  />
+))
+DialogOverlay.displayName = 'DialogOverlay'
+
+const DialogContent = React.forwardRef<
+  React.ComponentRef<typeof RadixDialog.Content>,
+  React.ComponentPropsWithoutRef<typeof RadixDialog.Content>
+>(({ className, children, ...props }, ref) => (
+  <DialogPortal>
+    <DialogOverlay />
+    <RadixDialog.Content
+      ref={ref}
+      className={cn(
+        'fixed left-[50%] top-[50%] z-50 translate-x-[-50%] translate-y-[-50%] rounded-2xl p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+      <RadixDialog.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <X className="h-4 w-4 text-white/70" />
+        <span className="sr-only">Close</span>
+      </RadixDialog.Close>
+    </RadixDialog.Content>
+  </DialogPortal>
+))
+DialogContent.displayName = 'DialogContent'
+
+const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
+  <div className={cn('flex flex-col space-y-1.5', className)} {...props} />
+)
+DialogHeader.displayName = 'DialogHeader'
+
+const DialogTitle = React.forwardRef<
+  React.ComponentRef<typeof RadixDialog.Title>,
+  React.ComponentPropsWithoutRef<typeof RadixDialog.Title>
+>(({ className, ...props }, ref) => (
+  <RadixDialog.Title
+    ref={ref}
+    className={cn('text-lg font-semibold leading-none tracking-tight', className)}
+    {...props}
+  />
+))
+DialogTitle.displayName = 'DialogTitle'
+
+const DialogDescription = React.forwardRef<
+  React.ComponentRef<typeof RadixDialog.Description>,
+  React.ComponentPropsWithoutRef<typeof RadixDialog.Description>
+>(({ className, ...props }, ref) => (
+  <RadixDialog.Description
+    ref={ref}
+    className={cn('text-sm text-muted-foreground', className)}
+    {...props}
+  />
+))
+DialogDescription.displayName = 'DialogDescription'
+
+export {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+}

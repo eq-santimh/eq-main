@@ -3,7 +3,9 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 
 import PseudoQr from "@/components/equity/PseudoQr";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
+import { EquittyPrimary } from "@/components/ui/EquittyPrimary";
 
 type AssetSymbol = "BTC" | "ETH" | "SOL" | "ADA" | "BNB" | "LTC" | "DOGE";
 
@@ -47,29 +49,21 @@ export default function DepositPage() {
       </Head>
 
       <div className="eq-page">
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Pasarela de Pagos Multicripto
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Entrada amplia + conversión instantánea (demo)
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Selecciona un activo (BTC/ETH/SOL/ADA/BNB/LTC/DOGE), define la
-            cantidad y el sistema calcula la conversión a USDT/USDC para
-            congelar el valor al momento de la compra.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
-              <Link href="/wallet-hub">Volver a Wallet Hub</Link>
-            </Button>
-            <Button asChild className="eq-cta">
-              <Link href="/marketplace">
-                Invertir en Marketplace <span aria-hidden>→</span>
-              </Link>
-            </Button>
-          </div>
-        </div>
+        <PageAccentHeader
+          eyebrow="Pasarela de Pagos Multicripto"
+          title="Entrada amplia + conversión instantánea (demo)"
+          description="Selecciona un activo (BTC/ETH/SOL/ADA/BNB/LTC/DOGE), define la cantidad y el sistema calcula la conversión a USDT/USDC para congelar el valor al momento de la compra."
+          actions={
+            <>
+              <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
+                <Link href="/wallet-hub">Volver a Wallet Hub</Link>
+              </Button>
+              <EquittyPrimary href="/marketplace">
+                Invertir en Marketplace
+              </EquittyPrimary>
+            </>
+          }
+        />
 
         <section className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
           <div className="eq-card">
@@ -125,7 +119,7 @@ export default function DepositPage() {
               </div>
             </div>
 
-            <div className="mt-5 grid gap-3 rounded-sm border border-border/40 bg-black/20 p-5">
+            <div className="mt-5 grid gap-3 glass-panel p-5">
               <div className="flex items-center justify-between gap-4">
                 <div className="text-sm text-muted-foreground">
                   Valor estimado (USD)
@@ -185,13 +179,13 @@ export default function DepositPage() {
                 Instrucciones de pago
               </h3>
               <div className="mt-4 grid gap-3">
-                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="glass-panel p-4 text-sm text-muted-foreground">
                   1) Envía {amount || "0"} {asset} a la dirección demo.
                 </div>
-                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="glass-panel p-4 text-sm text-muted-foreground">
                   2) El backend convierte instantáneamente a {stable}.
                 </div>
-                <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-sm text-muted-foreground">
+                <div className="glass-panel p-4 text-sm text-muted-foreground">
                   3) Se emiten tokens de inversión (RWA) contra el valor
                   estable congelado.
                 </div>

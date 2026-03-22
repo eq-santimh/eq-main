@@ -1,18 +1,19 @@
 import Head from "next/head";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
+import { BarChart3, DollarSign, Landmark, Wallet } from "lucide-react";
 
 import PieChart from "@/components/equity/charts/PieChart";
 import LineChart from "@/components/equity/charts/LineChart";
 import { portfolioHoldings } from "@/components/equity/mockData";
+import { StatCard } from "@/components/home/cards";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
+import { usePageAccent } from "@/hooks/usePageAccent";
 import { Button } from "@/components/ui/button";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 function clamp(n: number, min: number, max: number) {
   return Math.max(min, Math.min(max, n));
-}
-
-function fmt(n: number, prefix = "$") {
-  return `${prefix}${n.toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
 }
 
 const portfolioStats = {
@@ -27,6 +28,7 @@ const portfolioStats = {
 };
 
 export default function AnalyticsPage() {
+  const { hex: pageAccentHex } = usePageAccent();
   const [initialCapital, setInitialCapital] = useState("10000");
   const [dividendYieldAnnual, setDividendYieldAnnual] = useState("11");
   const [reinvestPercent, setReinvestPercent] = useState("100");
@@ -45,7 +47,7 @@ export default function AnalyticsPage() {
   }, [initialCapital, dividendYieldAnnual, reinvestPercent, months]);
 
   const pieSlices = [
-    { label: "Real Estate", value: 58, color: "#00B4C4" },
+    { label: "Real Estate", value: 58, color: pageAccentHex },
     { label: "Energía", value: 42, color: "#306598" },
   ];
 
@@ -59,29 +61,23 @@ export default function AnalyticsPage() {
 
       <div className="eq-page">
         {/* Header */}
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Dashboard Analítico de Rendimiento Patrimonial
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Interés compuesto + diversificación (demo)
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Panel que consolida inversiones RWA y permite simular crecimiento
-            reinvirtiendo dividendos en nuevos tokens de otros proyectos.
-          </p>
-
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Button asChild className="eq-cta">
-              <a href="/dividends">
-                Ir a Centro de Dividendos <span aria-hidden>→</span>
-              </a>
-            </Button>
-            <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
-              <a href="/exchange/terminal">Terminal de Trading</a>
-            </Button>
-          </div>
-        </div>
+        <PageAccentHeader
+          eyebrow="Dashboard Analítico de Rendimiento Patrimonial"
+          title="Interés compuesto + diversificación (demo)"
+          description="Panel que consolida inversiones RWA y permite simular crecimiento reinvirtiendo dividendos en nuevos tokens de otros proyectos."
+          actions={
+            <>
+              <Button asChild className="eq-cta">
+                <Link href="/dividends">
+                  Ir a Centro de Dividendos <span aria-hidden>→</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
+                <Link href="/exchange/terminal">Terminal de Trading</Link>
+              </Button>
+            </>
+          }
+        />
 
         {/* ── Portfolio Summary ── */}
         <section>
@@ -93,49 +89,41 @@ export default function AnalyticsPage() {
 
           {/* Stats cards */}
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="eq-card p-5">
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                Total Invertido
-              </div>
-              <div className="mt-2 text-2xl font-bold text-foreground">
-                {fmt(portfolioStats.totalInvested)}
-              </div>
-            </div>
-            <div className="eq-card p-5">
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                Valor Actual
-              </div>
-              <div className="mt-2 text-2xl font-bold text-foreground">
-                {fmt(portfolioStats.currentValue)}
-              </div>
-            </div>
-            <div className="eq-card p-5">
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                Retorno Promedio Anual
-              </div>
-              <div className="mt-2 text-2xl font-bold text-primary">
-                +{portfolioStats.avgAnnualReturn.toFixed(1)}%
-              </div>
-            </div>
-            <div className="eq-card p-5">
-              <div className="text-xs text-muted-foreground uppercase tracking-wider">
-                Ganancias Totales
-              </div>
-              <div className="mt-2 text-2xl font-bold text-emerald-400">
-                +{fmt(portfolioStats.totalEarnings)}
-              </div>
-            </div>
+            <StatCard
+              label="Total Invertido"
+              value={<FinancialFigure value={portfolioStats.totalInvested} format="currency" decimals={0} />}
+              icon={<Landmark className="size-4" />}
+              color="page"
+            />
+            <StatCard
+              label="Valor Actual"
+              value={<FinancialFigure value={portfolioStats.currentValue} format="currency" decimals={0} />}
+              icon={<Wallet className="size-4" />}
+              color="page"
+            />
+            <StatCard
+              label="Retorno Promedio Anual"
+              value={<FinancialFigure value={portfolioStats.avgAnnualReturn} format="percent" delta />}
+              icon={<BarChart3 className="size-4" />}
+              color="page"
+            />
+            <StatCard
+              label="Ganancias Totales"
+              value={<FinancialFigure value={portfolioStats.totalEarnings} format="currency" decimals={0} delta />}
+              icon={<DollarSign className="size-4" />}
+              color="page"
+            />
           </div>
 
           {/* Holdings list */}
           <div className="mt-4 eq-card p-0 overflow-hidden">
-            <div className="px-5 pt-5 pb-3 border-b border-border/30">
+            <div className="px-5 pt-5 pb-3 border-b glass-divider">
               <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
                 Mis posiciones
               </div>
             </div>
 
-            <div className="divide-y divide-border/20">
+            <div className="divide-y divide-white/6">
               {portfolioHoldings.map((h) => {
                 const pnl = h.current - h.invested;
                 const pnlPct = (pnl / h.invested) * 100;
@@ -153,7 +141,7 @@ export default function AnalyticsPage() {
                     </div>
 
                     {/* Stats row */}
-                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-sm mb-3">
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-base mb-3">
                       <div>
                         <div className="text-xs text-muted-foreground mb-0.5">Tokens</div>
                         <div className="font-semibold text-foreground">
@@ -162,23 +150,23 @@ export default function AnalyticsPage() {
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground mb-0.5">Invertido</div>
-                        <div className="font-semibold text-foreground">{fmt(h.invested)}</div>
+                        <div className="text-foreground">
+                          <FinancialFigure value={h.invested} format="currency" decimals={0} />
+                        </div>
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground mb-0.5">Actual</div>
-                        <div className="font-semibold text-foreground">{fmt(h.current)}</div>
+                        <div className="text-foreground">
+                          <FinancialFigure value={h.current} format="currency" decimals={0} />
+                        </div>
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground mb-0.5">P&L</div>
-                        <div className={`font-semibold ${pnl >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                          {pnl >= 0 ? "+" : ""}{fmt(pnl)}
-                        </div>
+                        <FinancialFigure value={pnl} format="currency" decimals={0} delta />
                       </div>
                       <div>
                         <div className="text-xs text-muted-foreground mb-0.5">%</div>
-                        <div className={`font-semibold ${pnlPct >= 0 ? "text-emerald-400" : "text-red-400"}`}>
-                          {pnlPct >= 0 ? "+" : ""}{pnlPct.toFixed(1)}%
-                        </div>
+                        <FinancialFigure value={pnlPct} format="percent" delta />
                       </div>
                     </div>
 
@@ -221,7 +209,7 @@ export default function AnalyticsPage() {
           </div>
 
           <div className="space-y-6">
-            <LineChart values={growthValues} />
+            <LineChart values={growthValues} accentColor={pageAccentHex} />
           </div>
         </section>
 
@@ -236,14 +224,14 @@ export default function AnalyticsPage() {
                 Simulación de reinversión
               </h3>
             </div>
-            <div className="rounded-sm border border-border/40 bg-black/20 p-4 text-right">
+            <div className="glass-panel p-4 text-right">
               <div className="text-xs text-muted-foreground">Capital proyectado</div>
-              <div className="mt-1 text-2xl font-semibold text-primary">
-                ${prediction.final.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              <div className="mt-1 text-3xl text-primary">
+                <FinancialFigure value={prediction.final} format="currency" decimals={0} />
               </div>
-              <div className="mt-1 text-xs text-muted-foreground">
-                Ganancia neta: $
-                {prediction.gain.toLocaleString(undefined, { maximumFractionDigits: 0 })}
+              <div className="mt-1 text-sm text-muted-foreground">
+                Ganancia neta:{" "}
+                <FinancialFigure value={prediction.gain} format="currency" decimals={0} delta />
               </div>
             </div>
           </div>

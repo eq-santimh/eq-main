@@ -17,6 +17,8 @@ export type DashboardNavItem = {
   color: string;
 };
 
+export const DEFAULT_ACCENT_COLOR = "#00B4C4";
+
 export const DASHBOARD_NAV: DashboardNavItem[] = [
   {
     href: "/",
@@ -30,7 +32,7 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
     label: "Marketplace",
     shortLabel: "Market",
     icon: <Grid2X2 className="size-4 shrink-0" />,
-    color: "#4C8D99",
+    color: "#006AD6",
   },
   {
     href: "/wallet-hub",
@@ -72,6 +74,33 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
 export function isDashboardNavActive(href: string, pathname: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(href + "/");
+}
+
+export function getPageAccentColor(pathname: string) {
+  const navMatch = DASHBOARD_NAV.find((item) => isDashboardNavActive(item.href, pathname));
+  if (navMatch) return navMatch.color;
+
+  if (pathname.startsWith("/marketplace/")) return getPageAccentColor("/marketplace");
+  if (pathname.startsWith("/governance/")) return getPageAccentColor("/governance");
+  if (pathname.startsWith("/exchange/")) return getPageAccentColor("/exchange/terminal");
+  if (pathname === "/profile") return getPageAccentColor("/wallet-hub");
+  if (pathname === "/deposit") return getPageAccentColor("/wallet-hub");
+
+  return DEFAULT_ACCENT_COLOR;
+}
+
+export function getActiveDashboardNavItem(pathname: string) {
+  const navMatch = DASHBOARD_NAV.find((item) => isDashboardNavActive(item.href, pathname));
+  if (navMatch) return navMatch;
+
+  if (pathname.startsWith("/exchange/")) {
+    return DASHBOARD_NAV.find((item) => item.href === "/exchange/terminal") ?? DASHBOARD_NAV[0];
+  }
+  if (pathname === "/deposit" || pathname === "/profile") {
+    return DASHBOARD_NAV.find((item) => item.href === "/wallet-hub") ?? DASHBOARD_NAV[0];
+  }
+
+  return DASHBOARD_NAV[0];
 }
 
 export function getDashboardPageMeta(pathname: string) {

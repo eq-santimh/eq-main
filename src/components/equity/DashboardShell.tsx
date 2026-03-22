@@ -7,10 +7,13 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import {
   DASHBOARD_NAV,
+  getActiveDashboardNavItem,
   getDashboardPageMeta,
+  getPageAccentColor,
   isDashboardNavActive,
 } from "@/components/equity/dashboard-shell.config";
 
+import { hexToRgbString } from "@/lib/color";
 import { cn } from "@/lib/utils";
 
 type SidebarMode = "auto" | "pinned" | "hidden";
@@ -62,9 +65,9 @@ export default function DashboardShell({
       : sidebarMode === "pinned"
         ? "Desfijar"
         : "Modo automático";
-  const activeNavItem =
-    DASHBOARD_NAV.find((item) => isDashboardNavActive(item.href, pathname)) ??
-    DASHBOARD_NAV[0];
+  const activeNavItem = getActiveDashboardNavItem(pathname);
+  const activePageAccent = getPageAccentColor(pathname);
+  const activePageAccentRgb = hexToRgbString(activePageAccent);
   const isHiddenIdle = sidebarMode === "hidden" && !hovered;
   const pageMeta = getDashboardPageMeta(pathname);
   const userName = "Jose Santiago";
@@ -74,6 +77,11 @@ export default function DashboardShell({
     .slice(0, 2)
     .map((part) => part[0]?.toUpperCase() ?? "")
     .join("");
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--eq-page-accent", activePageAccent);
+    document.documentElement.style.setProperty("--eq-page-accent-rgb", activePageAccentRgb);
+  }, [activePageAccent, activePageAccentRgb]);
 
   return (
     <div className="relative min-h-screen bg-[#08070e] text-foreground overflow-x-hidden">
@@ -104,10 +112,10 @@ export default function DashboardShell({
             backdropFilter:
               isExpanded || sidebarMode !== "hidden" ? "blur(18px)" : "none",
             borderRight: isExpanded
-              ? "1px solid rgba(0,180,196,0.10)"
+              ? `1px solid rgba(${activePageAccentRgb},0.10)`
               : "none",
             boxShadow: isExpanded
-              ? "6px 0 48px -8px rgba(0,180,196,0.14)"
+              ? `6px 0 48px -8px rgba(${activePageAccentRgb},0.14)`
               : "none",
           }}
         />
@@ -117,7 +125,7 @@ export default function DashboardShell({
           className="absolute left-0 top-0 bottom-0 w-px z-20 pointer-events-none"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 5%, rgba(0,180,196,0.4) 28%, rgba(0,180,196,0.9) 50%, rgba(0,180,196,0.4) 72%, transparent 95%)",
+              `linear-gradient(to bottom, transparent 5%, rgba(${activePageAccentRgb},0.4) 28%, rgba(${activePageAccentRgb},0.9) 50%, rgba(${activePageAccentRgb},0.4) 72%, transparent 95%)`,
           }}
         />
 
@@ -126,7 +134,7 @@ export default function DashboardShell({
           className="absolute left-0 top-0 bottom-0 w-4 z-10 pointer-events-none transition-opacity duration-300"
           style={{
             background:
-              "linear-gradient(to right, rgba(0,180,196,0.07), transparent)",
+              `linear-gradient(to right, rgba(${activePageAccentRgb},0.07), transparent)`,
             opacity: isExpanded ? 0 : 1,
           }}
         />
@@ -175,10 +183,10 @@ export default function DashboardShell({
                 className="relative flex h-8 shrink-0 items-center justify-center overflow-hidden rounded-sm border px-1.5 transition-all duration-300 group-hover:scale-105"
                 style={{
                   width: isExpanded ? "154px" : "34px",
-                  background: "rgba(0,180,196,0.08)",
-                  borderColor: "rgba(0,180,196,0.25)",
+                  background: `rgba(${activePageAccentRgb},0.08)`,
+                  borderColor: `rgba(${activePageAccentRgb},0.25)`,
                   boxShadow: isExpanded
-                    ? "0 0 14px rgba(0,180,196,0.20), inset 0 0 8px rgba(0,180,196,0.08)"
+                    ? `0 0 14px rgba(${activePageAccentRgb},0.20), inset 0 0 8px rgba(${activePageAccentRgb},0.08)`
                     : "none",
                 }}
               >
@@ -198,6 +206,7 @@ export default function DashboardShell({
                   alt="EQUITY"
                   width={132}
                   height={24}
+                  style={{ width: "auto", height: "auto" }}
                   priority
                   className={cn(
                     "absolute h-5 w-auto max-w-none object-contain transition-all duration-200",
@@ -227,7 +236,7 @@ export default function DashboardShell({
               {sidebarMode === "pinned" ? (
                 <Pin
                   className="size-3 shrink-0"
-                  style={{ color: "rgba(0,180,196,0.65)" }}
+                  style={{ color: `rgba(${activePageAccentRgb},0.65)` }}
                 />
               ) : sidebarMode === "hidden" ? (
                 <EyeOff className="size-3 shrink-0" />
@@ -251,7 +260,7 @@ export default function DashboardShell({
             className="mx-3 h-px mb-2 shrink-0"
             style={{
               background:
-                "linear-gradient(to right, transparent, rgba(48,101,152,0.45), transparent)",
+                `linear-gradient(to right, transparent, rgba(${activePageAccentRgb},0.45), transparent)`,
             }}
           />
 
@@ -348,7 +357,7 @@ export default function DashboardShell({
             className="mx-3 h-px mt-2 shrink-0"
             style={{
               background:
-                "linear-gradient(to right, transparent, rgba(48,101,152,0.3), transparent)",
+                `linear-gradient(to right, transparent, rgba(${activePageAccentRgb},0.30), transparent)`,
             }}
           />
 
@@ -404,8 +413,8 @@ export default function DashboardShell({
               : "lg:ml-14"
         )}
       >
-        <div className="mx-auto w-full max-w-[1680px] px-4 pb-20 pt-4 sm:px-6 lg:px-8 2xl:px-10">
-          <main className="pt-24 sm:pt-28">
+        <div className="mx-auto w-full max-w-[1680px] min-h-min px-4 pb-20 sm:px-6 lg:px-8 2xl:px-10">
+          <main className="pt-24 sm:pt-30">
             <Header
               title={pageMeta.title}
               subtitle={pageMeta.subtitle}
@@ -416,11 +425,22 @@ export default function DashboardShell({
             {children}
           </main>
         </div>
+        <div
+          className="w-full h-px min-h-px opacity-90"
+          style={{
+            background: `linear-gradient(to right, transparent, ${activePageAccent}, transparent)`,
+            boxShadow: `0 0 12px 1px rgba(${activePageAccentRgb}, 0.4), 0 0 24px 2px rgba(${activePageAccentRgb}, 0.2)`,
+          }}
+          aria-hidden
+        />
         <Footer />
       </div>
 
       {/* ─── Mobile bottom nav ─── */}
-      <nav className="fixed bottom-0 inset-x-0 z-50 lg:hidden border-t border-border/25 bg-[#08070e]/96 backdrop-blur-md">
+      <nav
+        className="fixed bottom-0 inset-x-0 z-50 lg:hidden bg-[#08070e]/96 backdrop-blur-md"
+        style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
+      >
         <div className="flex justify-around items-center px-1 py-2">
           {DASHBOARD_NAV.slice(0, 6).map((item) => {
             const active = isDashboardNavActive(item.href, pathname);

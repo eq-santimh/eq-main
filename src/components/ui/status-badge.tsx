@@ -17,7 +17,7 @@ const statusBadgeVariants = cva(
   {
     variants: {
       variant: {
-        info: "border-primary/40 bg-primary/10 text-primary shadow-[0_0_18px_rgba(0,180,196,0.2)]",
+        info: "border-primary/40 bg-primary/10 text-primary eq-accent-shadow-soft",
         success:
           "border-emerald-500/45 bg-emerald-500/12 text-emerald-300 shadow-[0_0_18px_rgba(16,185,129,0.22)]",
         warning:
@@ -27,7 +27,7 @@ const statusBadgeVariants = cva(
         neutral:
           "border-border/45 bg-muted/25 text-muted-foreground shadow-[0_0_16px_rgba(148,163,184,0.12)]",
         comingSoon:
-          "border-accent/40 bg-accent/10 text-accent shadow-[0_0_20px_rgba(0,180,196,0.22)]",
+          "border-accent/40 bg-accent/10 text-accent eq-accent-shadow-soft",
         loading:
           "border-violet-500/45 bg-violet-500/12 text-violet-300 shadow-[0_0_18px_rgba(139,92,246,0.22)]",
       },
@@ -70,12 +70,13 @@ function StatusBadge({
   showIcon = true,
   ...props
 }: StatusBadgeProps) {
-  const Icon = icon ?? defaultIcons[variant]
+  const resolvedVariant = variant ?? "info"
+  const Icon = icon ?? defaultIcons[resolvedVariant]
 
   return (
-    <span className={cn(statusBadgeVariants({ variant, size }), className)} {...props}>
+    <span className={cn(statusBadgeVariants({ variant: resolvedVariant, size }), className)} {...props}>
       {showIcon && (
-        <Icon className={cn("size-3.5 shrink-0", variant === "loading" && "animate-spin")} />
+        <Icon className={cn("size-3.5 shrink-0", resolvedVariant === "loading" && "animate-spin")} />
       )}
       {label}
     </span>

@@ -1,4 +1,6 @@
 import Head from "next/head";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 
 type Session = {
   id: string;
@@ -225,7 +227,7 @@ function ToggleView({ enabled }: { enabled: boolean }) {
       className={`inline-flex min-w-14 items-center justify-center rounded-full px-2.5 py-1 text-[10px] font-semibold ${
         enabled
           ? "bg-primary/20 text-primary border border-primary/35"
-          : "bg-white/6 text-muted-foreground border border-border/50"
+          : "bg-white/6 text-muted-foreground border border-white/10"
       }`}
     >
       {enabled ? "ON" : "OFF"}
@@ -243,19 +245,15 @@ export default function ProfilePage() {
       </Head>
 
       <div className="eq-page">
-        <section className="eq-card">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div>
-              <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-                Perfil
-              </div>
-              <h2 className="mt-2 text-2xl font-semibold text-foreground">Datos de usuario</h2>
-            </div>
+        <PageAccentHeader
+          eyebrow="Perfil"
+          title="Datos de usuario"
+          headerRight={(
             <div className="inline-flex h-14 w-14 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-lg font-semibold text-primary">
               {initials}
             </div>
-          </div>
-
+          )}
+        >
           <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <Field label="Nombre completo" value={profile.fullName} />
             <Field label="Correo electronico" value={profile.email} />
@@ -264,7 +262,7 @@ export default function ProfilePage() {
             <Field label="Ciudad" value={profile.city} />
             <Field label="Estado/Provincia" value={profile.state} />
             <Field label="Pais seleccionado" value={profile.country} />
-            <div className="rounded-sm border border-border/45 bg-black/20 p-3 sm:col-span-2">
+            <div className="glass-panel p-3 sm:col-span-2">
               <div className="text-[11px] text-muted-foreground">Paises disponibles</div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {profile.availableCountries.map((country) => (
@@ -273,7 +271,7 @@ export default function ProfilePage() {
                     className={`rounded-full border px-2 py-0.5 text-[10px] ${
                       country === profile.country
                         ? "border-primary/35 bg-primary/15 text-primary"
-                        : "border-border/50 bg-white/5 text-muted-foreground"
+                        : "border-white/10 bg-white/5 text-muted-foreground"
                     }`}
                   >
                     {country}
@@ -282,11 +280,11 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-        </section>
+        </PageAccentHeader>
 
         <section className="eq-card eq-section-line">
           <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">Seguridad</div>
-          <div className="mt-4 flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-4 py-3">
+          <div className="mt-4 flex items-center justify-between glass-panel px-4 py-3">
             <div>
               <div className="text-xs text-muted-foreground">Two-Factor Authentication</div>
               <div className="mt-1 text-sm text-foreground">
@@ -296,7 +294,7 @@ export default function ProfilePage() {
             <ToggleView enabled={twoFactorEnabled} />
           </div>
 
-          <div className="mt-4 overflow-x-auto rounded-sm border border-border/40">
+          <div className="mt-4 overflow-x-auto glass-panel">
             <table className="w-full min-w-[620px] text-left text-xs">
               <thead className="bg-white/5 text-muted-foreground">
                 <tr>
@@ -308,7 +306,7 @@ export default function ProfilePage() {
               </thead>
               <tbody>
                 {activeSessions.map((session) => (
-                  <tr key={session.id} className="border-t border-border/25">
+                  <tr key={session.id} className="border-t glass-divider">
                     <td className="px-3 py-2 text-foreground">{session.device}</td>
                     <td className="px-3 py-2 text-muted-foreground">{session.browser}</td>
                     <td className="px-3 py-2 text-muted-foreground">{session.location}</td>
@@ -326,13 +324,13 @@ export default function ProfilePage() {
           <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">Wallet</div>
           <div className="mt-3 rounded-sm border border-primary/30 bg-primary/8 px-4 py-3">
             <div className="text-xs text-muted-foreground">Balance total en USD</div>
-            <div className="mt-1 text-2xl font-semibold text-primary">
-              ${totalWalletBalanceUsd.toLocaleString("en-US", { maximumFractionDigits: 2 })}
+            <div className="mt-1 text-3xl text-primary">
+              <FinancialFigure value={totalWalletBalanceUsd} format="currency" />
             </div>
           </div>
 
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
+            <div className="glass-panel p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Wallets conectadas
               </div>
@@ -340,7 +338,7 @@ export default function ProfilePage() {
                 {connectedWallets.map((wallet) => (
                   <div
                     key={wallet.id}
-                    className="rounded-sm border border-border/35 bg-black/25 p-3 text-xs"
+                    className="glass-cell p-3 text-xs"
                   >
                     <div className="font-medium text-foreground">{wallet.type}</div>
                     <div className="mt-1 text-muted-foreground">{wallet.address}</div>
@@ -350,7 +348,7 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
+            <div className="glass-panel p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Transacciones recientes
               </div>
@@ -358,20 +356,15 @@ export default function ProfilePage() {
                 {recentTransactions.map((transaction) => (
                   <div
                     key={transaction.id}
-                    className="rounded-sm border border-border/35 bg-black/25 p-3 text-xs"
+                    className="glass-cell p-3 text-xs"
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-medium text-foreground">{transaction.type}</span>
                       <StatusPill label={transaction.status} />
                     </div>
                     <div className="mt-1 text-muted-foreground">{transaction.dateTime}</div>
-                    <div
-                      className={`mt-1 font-semibold ${
-                        transaction.amountUsd >= 0 ? "text-emerald-300" : "text-red-300"
-                      }`}
-                    >
-                      {transaction.amountUsd >= 0 ? "+" : "-"}$
-                      {Math.abs(transaction.amountUsd).toLocaleString("en-US")}
+                    <div className="mt-1 text-sm">
+                      <FinancialFigure value={transaction.amountUsd} format="currency" decimals={0} delta />
                     </div>
                   </div>
                 ))}
@@ -385,13 +378,13 @@ export default function ProfilePage() {
             Cuentas vinculadas
           </div>
           <div className="mt-4 grid gap-3 lg:grid-cols-2">
-            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
+            <div className="glass-panel p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Cuentas bancarias
               </div>
               <div className="mt-3 space-y-2">
                 {linkedBankAccounts.map((account) => (
-                  <div key={account.id} className="rounded-sm border border-border/35 bg-black/25 p-3">
+                  <div key={account.id} className="glass-cell p-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-foreground">{account.bank}</span>
                       <StatusPill label={account.verification} />
@@ -404,13 +397,13 @@ export default function ProfilePage() {
               </div>
             </div>
 
-            <div className="rounded-sm border border-border/40 bg-black/20 p-4">
+            <div className="glass-panel p-4">
               <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                 Metodos de pago
               </div>
               <div className="mt-3 space-y-2">
                 {paymentMethods.map((method) => (
-                  <div key={method.id} className="rounded-sm border border-border/35 bg-black/25 p-3">
+                  <div key={method.id} className="glass-cell p-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm font-medium text-foreground">
                         {method.cardType} •••• {method.last4}
@@ -461,7 +454,7 @@ export default function ProfilePage() {
               selected={preferences.timezone}
               options={preferences.availableTimezones}
             />
-            <div className="rounded-sm border border-border/45 bg-black/20 p-3">
+            <div className="glass-panel p-3">
               <div className="text-[11px] text-muted-foreground">Dark Mode</div>
               <div className="mt-2">
                 <ToggleView enabled={preferences.darkMode} />
@@ -476,7 +469,7 @@ export default function ProfilePage() {
 
 function Field({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
+    <div className="glass-panel p-3">
       <div className="text-[11px] text-muted-foreground">{label}</div>
       <div className="mt-1 text-sm text-foreground">{value}</div>
     </div>
@@ -485,7 +478,7 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function SwitchLine({ label, enabled }: { label: string; enabled: boolean }) {
   return (
-    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
+    <div className="glass-panel p-3">
       <div className="text-xs text-foreground">{label}</div>
       <div className="mt-2">
         <ToggleView enabled={enabled} />
@@ -504,7 +497,7 @@ function OptionList({
   options: string[];
 }) {
   return (
-    <div className="rounded-sm border border-border/45 bg-black/20 p-3">
+    <div className="glass-panel p-3">
       <div className="text-[11px] text-muted-foreground">{label}</div>
       <div className="mt-1 text-sm text-foreground">Seleccionado: {selected}</div>
       <div className="mt-2 flex flex-wrap gap-1.5">
@@ -514,7 +507,7 @@ function OptionList({
             className={`rounded-full border px-2 py-0.5 text-[10px] ${
               option === selected
                 ? "border-primary/35 bg-primary/15 text-primary"
-                : "border-border/50 bg-white/5 text-muted-foreground"
+                : "border-white/10 bg-white/5 text-muted-foreground"
             }`}
           >
             {option}

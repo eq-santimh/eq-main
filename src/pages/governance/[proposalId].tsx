@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { proposals } from "@/components/equity/mockData";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
 
 function formatTimeLeft(ms: number) {
@@ -58,17 +59,12 @@ export default function VotingPage() {
           </div>
         </div>
 
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Propuesta on-chain (demo)
-          </div>
-          <h2 className="mt-2 text-3xl font-semibold text-foreground">
-            {proposal?.title}
-          </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            {proposal?.description}
-          </p>
-
+        <PageAccentHeader
+          eyebrow="Propuesta on-chain (demo)"
+          title={proposal?.title}
+          titleClassName="text-3xl"
+          description={proposal?.description}
+        >
           <div className="mt-6 grid gap-4 lg:grid-cols-3">
             {proposal?.options.map((opt) => {
               const active = vote === opt;
@@ -83,9 +79,18 @@ export default function VotingPage() {
                   className={[
                     "rounded-sm border",
                     active
-                      ? "border-primary bg-primary/15 text-foreground shadow-[0_0_0_1px_rgba(0,180,196,0.35)]"
+                      ? "text-foreground"
                       : "border-border/60 bg-black/20 hover:bg-white/5",
                   ].join(" ")}
+                  style={
+                    active
+                      ? {
+                          borderColor: "rgba(var(--eq-page-accent-rgb),0.55)",
+                          background: "rgba(var(--eq-page-accent-rgb),0.15)",
+                          boxShadow: "0 0 0 1px rgba(var(--eq-page-accent-rgb),0.35)",
+                        }
+                      : undefined
+                  }
                 >
                   {opt}
                 </Button>
@@ -125,7 +130,7 @@ export default function VotingPage() {
               smart contract de gobernanza.
             </div>
           </div>
-        </div>
+        </PageAccentHeader>
       </div>
     </>
   );

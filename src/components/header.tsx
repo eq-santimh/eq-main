@@ -5,6 +5,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { Bell, LogOut, Menu, Search, UserRound, X } from 'lucide-react'
+import { getPageAccentColor } from '@/components/equity/dashboard-shell.config'
+import { hexToRgbString } from '@/lib/color'
 
 type HeaderLink = {
   label: string
@@ -38,6 +40,8 @@ export function Header({
   links = defaultLinks,
 }: HeaderProps) {
   const router = useRouter()
+  const pageAccent = getPageAccentColor(router.pathname)
+  const pageAccentRgb = hexToRgbString(pageAccent)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isVisible, setIsVisible] = useState(true)
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
@@ -117,17 +121,31 @@ export function Header({
         } as React.CSSProperties
       }
     >
+      {/* ┌──────────────────────────────────────────────────────────────────┐
+           │  GLOW TURQUESA DEL HEADER                                        │
+           │  Tira de brillo turquesa/cyan que aparece DETRÁS de la nav bar.  │
+           │  Es un radial-gradient de rgba(0,180,196,…) absolutamente        │
+           │  posicionado en la parte superior del <header>, con h-16/h-20.   │
+           │  Para eliminarlo: borra este <div> completo.                      │
+           │  Para reducir intensidad: baja los valores de opacidad (0.2/0.08)│
+           └──────────────────────────────────────────────────────────────────┘ */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-20"
+        className="pointer-events-none absolute inset-x-0 top-0 h-16 sm:h-24"
         style={{
           background:
-            'radial-gradient(ellipse 80% 60% at 50% 100%, rgba(0, 180, 196, 0.2) 0%, rgba(0, 180, 196, 0.08) 40%, transparent 72%)',
+            `radial-gradient(ellipse 80% 60% at 50% 100%, rgba(${pageAccentRgb}, 0.2) 0%, rgba(${pageAccentRgb}, 0.08) 40%, transparent 72%)`,
         }}
         aria-hidden
       />
+      {/* FIN DEL GLOW TURQUESA */}
 
       <nav className="relative mx-auto w-full max-w-[1680px] px-4 py-4 sm:px-6 lg:px-8 2xl:px-10">
-        <div className="rounded-sm border border-border/20 bg-background/80 backdrop-blur-xl shadow-[0_8px_30px_-18px_rgba(0,180,196,0.45)]">
+        {/* GLOW SECUNDARIO: shadow turquesa debajo de la nav bar (box-shadow de la glass-surface).
+             Complementa el radial-gradient de arriba. Para quitarlo: elimina la clase shadow-[…] */}
+        <div
+          className="glass-surface"
+          style={{ boxShadow: `0 8px 30px -18px rgba(${pageAccentRgb},0.45)` }}
+        >
           <div className="flex items-center justify-between gap-3 px-4 py-3 sm:px-5">
             <div className="flex min-w-0 items-center gap-3 sm:gap-4">
               <Link href="/" className="shrink-0">
@@ -136,7 +154,12 @@ export function Header({
                   alt="EQUITY"
                   width={160}
                   height={48}
-                  className="h-auto w-24 object-contain drop-shadow-[0_0_20px_rgba(0,180,196,0.28)] sm:w-32"
+                  style={{
+                    width: "auto",
+                    height: "auto",
+                    filter: `drop-shadow(0 0 20px rgba(${pageAccentRgb},0.28))`,
+                  }}
+                  className="h-auto w-24 object-contain sm:w-32"
                   priority
                 />
               </Link>
@@ -180,10 +203,17 @@ export function Header({
               <button
                 type="button"
                 aria-label="Notificaciones"
-                className="hidden sm:inline-flex relative h-9 w-9 items-center justify-center rounded-full border border-border/55 bg-black/20 text-muted-foreground transition-colors hover:text-foreground hover:bg-white/6"
+                className="hidden sm:inline-flex relative h-9 w-9 items-center justify-center rounded-full border text-muted-foreground transition-colors hover:text-foreground"
+                style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.04)" }}
               >
                 <Bell className="size-4" />
-                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(0,180,196,0.9)]" />
+                <span
+                  className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full"
+                  style={{
+                    backgroundColor: pageAccent,
+                    boxShadow: `0 0 8px rgba(${pageAccentRgb},0.9)`,
+                  }}
+                />
               </button>
 
               <div className="relative hidden sm:block" ref={profileMenuRef}>
@@ -193,9 +223,18 @@ export function Header({
                   aria-expanded={isProfileMenuOpen}
                   aria-label="Abrir menu de perfil"
                   onClick={() => setIsProfileMenuOpen((value) => !value)}
-                  className="inline-flex items-center gap-2.5 rounded-full border border-border/55 bg-black/20 px-2.5 py-1.5 text-left transition-colors hover:bg-white/6"
+                  className="inline-flex items-center gap-2.5 rounded-full border px-2.5 py-1.5 text-left transition-colors"
+                  style={{ borderColor: "rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.04)" }}
                 >
-                  <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary/15 text-xs font-semibold text-primary shadow-[0_0_12px_rgba(0,180,196,0.22)]">
+                  <span
+                    className="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold"
+                    style={{
+                      color: pageAccent,
+                      borderColor: `rgba(${pageAccentRgb},0.30)`,
+                      background: `rgba(${pageAccentRgb},0.15)`,
+                      boxShadow: `0 0 12px rgba(${pageAccentRgb},0.22)`,
+                    }}
+                  >
                     {resolvedInitials}
                   </span>
                   <span className="hidden lg:block">
@@ -211,7 +250,8 @@ export function Header({
                 {isProfileMenuOpen && (
                   <div
                     role="menu"
-                    className="absolute right-0 mt-2 w-40 rounded-sm border border-border/60 bg-[#0b0a12]/95 p-1.5 shadow-[0_20px_40px_-22px_rgba(0,180,196,0.45)] backdrop-blur-xl"
+                    className="absolute right-0 mt-2 w-40 glass-surface-elevated p-1.5"
+                    style={{ boxShadow: `0 20px 40px -22px rgba(${pageAccentRgb},0.45)` }}
                   >
                     <Link
                       href="/profile"
@@ -251,19 +291,19 @@ export function Header({
             </div>
           </div>
 
-          <div
+          {/* <div
             className="h-px bg-linear-to-r from-transparent via-accent to-transparent opacity-90"
             style={{
               boxShadow:
                 '0 0 12px 1px rgba(0, 180, 196, 0.35), 0 0 24px 2px rgba(0, 180, 196, 0.16)',
             }}
             aria-hidden
-          />
+          /> */}
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden rounded-sm border-x border-b border-border/20 bg-background/90 px-4 py-4 backdrop-blur-xl">
+          <div className="md:hidden glass-surface-elevated px-4 py-4 mt-1">
             <div className="flex flex-col gap-4">
               <div className="min-w-0">
                 <div className="text-[10px] uppercase tracking-[0.22em] text-muted-foreground/70">

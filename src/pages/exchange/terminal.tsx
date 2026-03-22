@@ -3,7 +3,9 @@ import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 
 import { orderBookMock } from "@/components/equity/mockData";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 type Side = "BUY" | "SELL";
 
@@ -69,28 +71,23 @@ export default function ExchangeTerminalPage() {
       </Head>
 
       <div className="eq-page">
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Mercado Secundario de Liquidez (P2P)
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Terminal de Trading (demo)
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Order book interno para listar tokens para venta antes de que el
-            activo subyacente se liquide. Demo con un book simplificado.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Button asChild className="eq-cta">
-              <Link href="/exchange/orders">
-                Mis Órdenes <span aria-hidden>→</span>
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
-              <Link href="/marketplace">Marketplace</Link>
-            </Button>
-          </div>
-        </div>
+        <PageAccentHeader
+          eyebrow="Mercado Secundario de Liquidez (P2P)"
+          title="Terminal de Trading (demo)"
+          description="Order book interno para listar tokens para venta antes de que el activo subyacente se liquide. Demo con un book simplificado."
+          actions={
+            <>
+              <Button asChild className="eq-cta">
+                <Link href="/exchange/orders">
+                  Mis Órdenes <span aria-hidden>→</span>
+                </Link>
+              </Button>
+              <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
+                <Link href="/marketplace">Marketplace</Link>
+              </Button>
+            </>
+          }
+        />
 
         <section className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="eq-card">
@@ -103,11 +100,11 @@ export default function ExchangeTerminalPage() {
               </div>
               <div className="text-right">
                 <div className="text-xs text-muted-foreground">Spread (demo)</div>
-                <div className="mt-1 text-lg font-semibold text-primary">
-                  ${previewSummary.spreadUsd.toFixed(3)}
+                <div className="mt-1 text-xl text-primary">
+                  <FinancialFigure value={`$${previewSummary.spreadUsd.toFixed(3)}`} format="raw" />
                 </div>
-                <div className="mt-1 text-xs text-muted-foreground">
-                  Mid: ${previewSummary.midUsd.toFixed(3)}
+                <div className="mt-1 text-sm text-muted-foreground">
+                  Mid: <FinancialFigure value={`$${previewSummary.midUsd.toFixed(3)}`} format="raw" />
                 </div>
               </div>
             </div>
@@ -121,14 +118,14 @@ export default function ExchangeTerminalPage() {
                       key={`${l.priceUsd}-${idx}`}
                       className="flex items-center justify-between gap-3 rounded-sm border border-border/30 bg-black/10 px-3 py-2"
                     >
-                      <div className="text-sm text-primary font-semibold">
-                        ${l.priceUsd.toFixed(2)}
+                      <div className="text-base text-primary">
+                        <FinancialFigure value={l.priceUsd} format="currency" decimals={2} />
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {l.quantityTokens} tokens
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        ${l.totalUsd.toFixed(0)}
+                      <div className="text-sm text-muted-foreground">
+                        <FinancialFigure value={l.totalUsd} format="currency" decimals={0} />
                       </div>
                     </div>
                   ))}
@@ -143,14 +140,14 @@ export default function ExchangeTerminalPage() {
                       key={`${l.priceUsd}-${idx}`}
                       className="flex items-center justify-between gap-3 rounded-sm border border-border/30 bg-black/10 px-3 py-2"
                     >
-                      <div className="text-sm text-primary font-semibold">
-                        ${l.priceUsd.toFixed(2)}
+                      <div className="text-base text-primary">
+                        <FinancialFigure value={l.priceUsd} format="currency" decimals={2} />
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {l.quantityTokens} tokens
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        ${l.totalUsd.toFixed(0)}
+                      <div className="text-sm text-muted-foreground">
+                        <FinancialFigure value={l.totalUsd} format="currency" decimals={0} />
                       </div>
                     </div>
                   ))}
@@ -221,8 +218,8 @@ export default function ExchangeTerminalPage() {
                 <div className="rounded-sm border border-border/40 bg-black/20 p-4">
                   <div className="flex items-center justify-between">
                     <div className="text-sm text-muted-foreground">Total</div>
-                    <div className="text-lg font-semibold text-primary">
-                      ${total.toFixed(0)}
+                    <div className="text-xl text-primary">
+                      <FinancialFigure value={total} format="currency" decimals={0} />
                     </div>
                   </div>
                 </div>

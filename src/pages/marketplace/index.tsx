@@ -7,7 +7,10 @@ import {
   type MarketplaceProject,
   type MarketplaceCategory,
 } from "@/components/equity/mockData";
+import { ProjectCard } from "@/components/equity/marketplace/ProjectCard";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 type SortKey = "roi-desc" | "price-asc" | "price-desc" | "funded-desc" | "name-asc";
 
@@ -55,7 +58,7 @@ function LightboxModal({
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-2xl rounded-sm overflow-hidden border border-white/10 bg-[#0e0d1a] shadow-2xl"
+        className="relative w-full max-w-2xl glass-surface-elevated overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.5)]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Full image */}
@@ -73,7 +76,14 @@ function LightboxModal({
           >
             ✕
           </button>
-          <span className="absolute top-3 left-3 rounded-full bg-primary/20 border border-primary/30 px-3 py-1 text-xs text-primary font-medium">
+          <span
+            className="absolute top-3 left-3 rounded-full px-3 py-1 text-xs font-medium"
+            style={{
+              color: "var(--eq-page-accent)",
+              border: "1px solid rgba(var(--eq-page-accent-rgb),0.30)",
+              background: "rgba(var(--eq-page-accent-rgb),0.20)",
+            }}
+          >
             {project.category}
           </span>
           <div className="absolute bottom-4 left-4">
@@ -86,19 +96,19 @@ function LightboxModal({
         <div className="p-5 space-y-4">
           {/* Stats row */}
           <div className="grid grid-cols-3 gap-3">
-            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
+            <div className="glass-cell p-3 text-center">
               <div className="text-xs text-muted-foreground">Precio Token</div>
-              <div className="mt-1 text-lg font-bold text-foreground">
-                ${project.pricePerTokenUsd.toLocaleString("en-US")}
+              <div className="mt-1 text-xl text-foreground">
+                <FinancialFigure value={project.pricePerTokenUsd} format="currency" decimals={0} />
               </div>
             </div>
-            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
+            <div className="glass-cell p-3 text-center">
               <div className="text-xs text-muted-foreground">ROI Anual</div>
-              <div className="mt-1 text-lg font-bold text-primary">
-                {project.roiAnnual.toFixed(1)}%
+              <div className="mt-1 text-xl eq-accent-text">
+                <FinancialFigure value={project.roiAnnual} format="percent" delta />
               </div>
             </div>
-            <div className="rounded-sm bg-black/30 border border-border/30 p-3 text-center">
+            <div className="glass-cell p-3 text-center">
               <div className="text-xs text-muted-foreground">Supply Total</div>
               <div className="mt-1 text-lg font-bold text-foreground">
                 {formatSupply(project.totalSupply)}
@@ -151,114 +161,6 @@ function LightboxModal({
   );
 }
 
-function ProjectCard({
-  project,
-  onImageClick,
-}: {
-  project: MarketplaceProject;
-  onImageClick: () => void;
-}) {
-  return (
-    <div className="eq-card overflow-hidden p-0 flex flex-col group transition-all hover:border-white/20">
-      {/* Cover image */}
-      <div className="relative overflow-hidden">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={project.imageUrl}
-          alt={project.title}
-          className="w-full aspect-video object-cover cursor-zoom-in transition-transform duration-500 group-hover:scale-105"
-          onClick={onImageClick}
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-        {/* Category badge */}
-        <span className="absolute top-3 left-3 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-3 py-1 text-xs text-white font-medium">
-          {project.category}
-        </span>
-
-        {/* Expand button */}
-        <button
-          onClick={onImageClick}
-          title="Expandir imagen"
-          className="absolute top-3 right-3 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 w-8 h-8 flex items-center justify-center text-white hover:bg-primary/70 transition-all opacity-0 group-hover:opacity-100"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Card body */}
-      <div className="p-4 flex flex-col gap-3 flex-1">
-        {/* Title */}
-        <div>
-          <div className="text-xs text-muted-foreground">{project.location}</div>
-          <div className="mt-0.5 text-base font-semibold text-foreground">{project.title}</div>
-        </div>
-
-        {/* Progress bars */}
-        <div className="space-y-2">
-          <div>
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-muted-foreground">Construcción</span>
-              <span className="font-medium text-orange-400">{project.constructionProgress}%</span>
-            </div>
-            <div className="h-1.5 rounded-full bg-white/5 border border-border/20 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-orange-400"
-                style={{ width: `${project.constructionProgress}%` }}
-              />
-            </div>
-          </div>
-          <div>
-            <div className="flex justify-between text-xs mb-1">
-              <span className="text-muted-foreground">Fondeado</span>
-              <span className="font-medium text-primary">{project.progressFondeo}%</span>
-            </div>
-            <div className="h-1.5 rounded-full bg-white/5 border border-border/20 overflow-hidden">
-              <div
-                className="h-full rounded-full bg-primary"
-                style={{ width: `${project.progressFondeo}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-2 text-center">
-          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
-            <div className="text-[10px] text-muted-foreground leading-tight">Token Price</div>
-            <div className="text-sm font-semibold text-foreground mt-0.5">
-              ${project.pricePerTokenUsd.toLocaleString("en-US")}
-            </div>
-          </div>
-          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
-            <div className="text-[10px] text-muted-foreground leading-tight">Annual Return</div>
-            <div className="text-sm font-semibold text-primary mt-0.5">
-              {project.roiAnnual.toFixed(1)}%
-            </div>
-          </div>
-          <div className="rounded-sm bg-black/20 border border-border/30 py-2 px-1">
-            <div className="text-[10px] text-muted-foreground leading-tight">Total Supply</div>
-            <div className="text-sm font-semibold text-foreground mt-0.5">
-              {formatSupply(project.totalSupply)}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="mt-auto pt-1">
-          <Button asChild className="eq-cta w-full">
-            <Link href={`/marketplace/${project.id}`}>
-              Invest Now <span aria-hidden>→</span>
-            </Link>
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function MarketplacePage() {
   const [activeCategory, setActiveCategory] = useState<"All" | MarketplaceCategory>("All");
   const [sortBy, setSortBy] = useState<SortKey>("roi-desc");
@@ -303,18 +205,11 @@ export default function MarketplacePage() {
 
       <div className="eq-page">
         {/* Header */}
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            Catálogo de Inversión
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Marketplace de RWA
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Activos del mundo real tokenizados: inmuebles, energía, infraestructura y bonos digitales.
-            Haz clic en las imágenes para expandirlas y ver el detalle de cada proyecto.
-          </p>
-        </div>
+        <PageAccentHeader
+          eyebrow="Catálogo de Inversión"
+          title="Marketplace de RWA"
+          description="Activos del mundo real tokenizados: inmuebles, energía, infraestructura y bonos digitales. Haz clic en las imágenes para expandirlas y ver el detalle de cada proyecto."
+        />
 
         {/* Filters + Sort */}
         <div className="eq-card">
@@ -328,9 +223,16 @@ export default function MarketplacePage() {
                   className={[
                     "rounded-full px-4 py-2 text-sm font-medium transition-all whitespace-nowrap",
                     activeCategory === cat
-                      ? "bg-primary text-white shadow-[0_0_12px_rgba(0,180,196,0.3)]"
+                      ? "text-white eq-accent-shadow-soft"
                       : "border border-border/40 text-muted-foreground hover:border-primary/40 hover:text-foreground",
                   ].join(" ")}
+                  style={
+                    activeCategory === cat
+                      ? {
+                          background: "rgba(var(--eq-page-accent-rgb),0.45)",
+                        }
+                      : undefined
+                  }
                 >
                   {cat === "All" ? "All Properties" : cat}
                 </button>
@@ -359,8 +261,8 @@ export default function MarketplacePage() {
             {filtered.length} proyecto{filtered.length !== 1 ? "s" : ""} encontrado
             {filtered.length !== 1 ? "s" : ""}
             {activeCategory !== "All" && (
-              <span className="ml-1">
-                en <span className="text-primary">{activeCategory}</span>
+                <span className="ml-1">
+                en <span className="eq-accent-text">{activeCategory}</span>
               </span>
             )}
           </div>
@@ -386,7 +288,7 @@ export default function MarketplacePage() {
             <p className="mt-2 text-sm text-muted-foreground">
               Selecciona otra categoría o{" "}
               <button
-                className="text-primary underline underline-offset-2"
+                className="eq-accent-text underline underline-offset-2"
                 onClick={() => setActiveCategory("All")}
               >
                 ver todos

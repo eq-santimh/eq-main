@@ -11,32 +11,33 @@ import {
 } from "lucide-react";
 
 import type { ModuleCardProps, StatCardProps } from "@/components/home/cards";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 const HOME_STATS: StatCardProps[] = [
   {
     label: "Portafolio Total",
-    value: "$18,420",
+    value: <FinancialFigure value="$18,420" format="raw" />,
     sub: "↑ $648 este mes",
     icon: <TrendingUp className="size-4" />,
     color: "primary",
   },
   {
     label: "ROI Anual Est.",
-    value: "+11.2%",
+    value: <FinancialFigure value={11.2} format="percent" delta />,
     sub: "Promedio ponderado",
     icon: <BarChart3 className="size-4" />,
     color: "green",
   },
   {
     label: "Dividendos Pend.",
-    value: "$0",
+    value: <FinancialFigure value={0} format="currency" />,
     sub: "Próximo: 2026-03-30",
     icon: <Clock className="size-4" />,
     color: "amber",
   },
   {
     label: "Activos RWA",
-    value: "3",
+    value: <FinancialFigure value="3" format="raw" />,
     sub: "Tokens en portafolio",
     icon: <Layers className="size-4" />,
     color: "primary",

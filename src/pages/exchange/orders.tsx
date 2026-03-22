@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
 
 type Side = "BUY" | "SELL";
@@ -38,25 +39,23 @@ export default function MyOrdersPage() {
       </Head>
 
       <div className="eq-page">
-        <div className="eq-card">
-          <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">
-            P2P Exchange
-          </div>
-          <h2 className="mt-2 text-2xl font-semibold text-foreground">
-            Mis Órdenes (demo)
-          </h2>
-          <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
-            Historial de transacciones realizadas en el mercado secundario.
-            Se guarda en `localStorage` (demo).
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
+        <PageAccentHeader
+          eyebrow="P2P Exchange"
+          title="Mis Órdenes (demo)"
+          description={(
+            <>
+              Historial de transacciones realizadas en el mercado secundario.
+              Se guarda en <code>localStorage</code> (demo).
+            </>
+          )}
+          actions={(
             <Button asChild className="eq-cta">
               <Link href="/exchange/terminal">
                 Volver a Trading Terminal <span aria-hidden>→</span>
               </Link>
             </Button>
-          </div>
-        </div>
+          )}
+        />
 
         <div className="eq-card eq-section-line">
           <div className="text-sm uppercase tracking-[0.22em] text-muted-foreground">

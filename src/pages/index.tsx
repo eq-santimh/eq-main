@@ -3,9 +3,13 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 import { projects } from "@/components/equity/mockData";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { ModuleCard, StatCard } from "@/components/home/cards";
 import { HOME_MODULES, HOME_STATS } from "@/components/home/home-data";
+import { EquittyPrimary } from "@/components/ui/EquittyPrimary";
+import { EquittyGhost } from "@/components/ui/EquittyGhost";
 import { StatusBadge } from "@/components/ui/status-badge";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 /* ── Main ── */
 export default function Home() {
@@ -17,45 +21,44 @@ export default function Home() {
         <title>EQ — Dashboard</title>
       </Head>
     
-      <div className="eq-page pt-24 sm:pt-28">
+      <div className="eq-page">
         {/* ── Hero ── */}
         <section className="grid gap-4 lg:grid-cols-[1.3fr_0.7fr]">
           {/* Left: headline */}
-          <div className="eq-card relative overflow-hidden">
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
-            <div className="relative">
-              <StatusBadge
-                variant="info"
-                label="RWA · Multicripto · Gobernanza · Liquidez"
-                className="normal-case tracking-[0.06em] text-foreground/80"
-              />
-
-              <h1 className="mt-5 text-balance text-4xl font-semibold leading-tight text-foreground sm:text-5xl">
+          <PageAccentHeader
+            eyebrow="Dashboard Principal"
+            title={(
+              <>
                 Dashboard de{" "}
                 <span className="eq-rwa">
                   Real World Assets
                   <span className="eq-cursor">▍</span>
                 </span>
-              </h1>
-
-              <p className="mt-3 max-w-lg text-sm leading-relaxed text-muted-foreground">
-                Emite, fracciona y negocia activos tokenizados. Gobernanza
-                on-chain, dividendos automáticos y mercado secundario P2P.
-              </p>
-
-              <div className="mt-6 flex flex-wrap gap-3">
-                <Link href="/marketplace" className="eq-cta">
-                  Explorar Marketplace <span aria-hidden>→</span>
-                </Link>
-                <Link
-                  href="/wallet-hub"
-                  className="eq-btn-outline inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium transition-all hover:bg-white/5"
-                >
+              </>
+            )}
+            titleClassName="text-balance text-4xl leading-tight sm:text-5xl"
+            description="Emite, fracciona y negocia activos tokenizados. Gobernanza on-chain, dividendos automáticos y mercado secundario P2P."
+            actions={
+              <>
+                <EquittyPrimary href="/marketplace">
+                  Explorar Marketplace
+                </EquittyPrimary>
+                <EquittyGhost href="/wallet-hub" size="md" icon={null}>
                   Wallet Hub
-                </Link>
-              </div>
+                </EquittyGhost>
+              </>
+            }
+            className="relative overflow-hidden"
+            topSlot={(
+              <div className="mb-4">
+              <StatusBadge
+                variant="info"
+                label="RWA · Multicripto · Gobernanza · Liquidez"
+                className="normal-case tracking-[0.06em] text-foreground/80"
+              />
             </div>
-          </div>
+            )}
+          />
 
           {/* Right: stats */}
           <div className="grid grid-cols-2 gap-3 content-start">
@@ -79,7 +82,7 @@ export default function Home() {
 
         {/* ── Featured projects ── */}
         <section className="eq-card p-0 overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-4 border-b border-border/30">
+          <div className="flex items-center justify-between px-5 py-4 border-b glass-divider">
             <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
               Proyectos destacados
             </div>
@@ -91,7 +94,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="divide-y divide-border/20">
+          <div className="divide-y divide-white/6">
             {topProjects.map((p, i) => {
               const categoryColor: Record<string, string> = {
                 Residential: "bg-blue-400",
@@ -108,7 +111,7 @@ export default function Home() {
                 <Link
                   key={p.id}
                   href={`/marketplace/${p.id}`}
-                  className="group flex items-center gap-4 px-5 py-3.5 hover:bg-white/3 transition-colors"
+                  className="group flex items-center gap-4 px-5 py-3.5 glass-hover"
                 >
                   {/* Index */}
                   <span className="w-5 shrink-0 text-xs font-mono text-muted-foreground/40">
@@ -143,11 +146,11 @@ export default function Home() {
 
                   {/* ROI */}
                   <div className="text-right shrink-0">
-                    <div className="text-base font-bold text-emerald-400">
-                      +{p.roiAnnual.toFixed(1)}%
+                    <div className="text-lg">
+                      <FinancialFigure value={p.roiAnnual} format="percent" delta />
                     </div>
-                    <div className="text-[10px] text-muted-foreground/50">
-                      ${p.pricePerTokenUsd.toLocaleString("en-US")}/token
+                    <div className="text-xs text-muted-foreground/50">
+                      <FinancialFigure value={p.pricePerTokenUsd} format="currency" decimals={0} />/token
                     </div>
                   </div>
 

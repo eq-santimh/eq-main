@@ -12,7 +12,7 @@ const sizeClasses: Record<"sm" | "md" | "lg", string> = {
 }
 
 const BASE_CLASSES =
-  "cursor-pointer rounded-lg bg-transparent text-accent font-semibold transition-all duration-300  hover:scale-[1.01] hover:bg-white border border-white/10 flex items-center justify-center gap-2"
+  "cursor-pointer rounded-lg bg-transparent text-accent font-semibold transition-all duration-300 hover:scale-[1.01] border border-white/10 flex items-center justify-center gap-2 disabled:hover:scale-100 disabled:opacity-50 group [&:not(:disabled):hover]:bg-white/10"
 
 interface EquittyGhostProps
   extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "children"> {

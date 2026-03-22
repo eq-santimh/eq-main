@@ -23,7 +23,10 @@ import {
 } from "lucide-react";
 
 import { getProjectById } from "@/components/equity/mockData";
+import { PageAccentHeader } from "@/components/equity/PageAccentHeader";
 import { Button } from "@/components/ui/button";
+import { EquittyPrimary } from "@/components/ui/EquittyPrimary";
+import { FinancialFigure } from "@/components/ui/FinancialFigure";
 
 type ProjectStatus = "Activo" | "En preventa" | "Cerrado";
 
@@ -337,7 +340,7 @@ function InfoCard({
 }: {
   icon: React.ReactNode;
   label: string;
-  value: string;
+  value: React.ReactNode;
   accent?: string;
 }) {
   return (
@@ -346,7 +349,7 @@ function InfoCard({
         {icon}
       </div>
       <div className="mt-3 text-xs uppercase tracking-[0.16em] text-muted-foreground">{label}</div>
-      <div className="mt-1 text-base font-semibold text-foreground">{value}</div>
+      <div className="mt-1 text-lg text-foreground">{value}</div>
     </div>
   );
 }
@@ -376,8 +379,29 @@ export default function ProjectDetailPage() {
       </Head>
 
       <div className="eq-page">
-        <div className="eq-card overflow-hidden p-0">
-          <div className="relative">
+        <PageAccentHeader
+          eyebrow="Identificación del Proyecto"
+          title={project.title}
+          description={(
+            <span className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+              <span className="inline-flex items-center gap-1.5">
+                <MapPinned className="size-4 text-primary" />
+                {city}, {country}
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Building2 className="size-4 text-blue-400" />
+                {detail.projectType}
+              </span>
+            </span>
+          )}
+          actions={(
+            <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
+              <Link href="/marketplace">Volver al Marketplace</Link>
+            </Button>
+          )}
+          className="overflow-hidden p-0"
+          topSlot={(
+            <div className="relative -mx-6 -mt-6 mb-5 sm:-mx-6">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={project.imageUrl}
@@ -395,49 +419,27 @@ export default function ProjectDetailPage() {
                 {detail.status}
               </span>
             </div>
-          </div>
-          <div className="p-5 sm:p-6">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                  Identificacion del Proyecto
-                </div>
-                <h2 className="mt-2 text-2xl font-semibold text-foreground">{project.title}</h2>
-                <div className="mt-2 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                  <span className="inline-flex items-center gap-1.5">
-                    <MapPinned className="size-4 text-primary" />
-                    {city}, {country}
-                  </span>
-                  <span className="inline-flex items-center gap-1.5">
-                    <Building2 className="size-4 text-blue-400" />
-                    {detail.projectType}
-                  </span>
-                </div>
-              </div>
-              <Button asChild variant="outline" className="eq-btn-outline rounded-full px-6 py-3">
-                <Link href="/marketplace">Volver al Marketplace</Link>
-              </Button>
             </div>
-          </div>
-        </div>
+          )}
+        />
 
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <InfoCard
             icon={<CircleDollarSign className="size-4" />}
             label="Precio por token"
-            value={formatUsd(project.pricePerTokenUsd)}
+            value={<FinancialFigure value={project.pricePerTokenUsd} format="currency" decimals={0} />}
             accent="text-primary"
           />
           <InfoCard
             icon={<ChartNoAxesColumnIncreasing className="size-4" />}
             label="Retorno anual esperado"
-            value={`${project.roiAnnual.toFixed(1)}%`}
+            value={<FinancialFigure value={project.roiAnnual} format="percent" delta />}
             accent="text-emerald-400"
           />
           <InfoCard
             icon={<Landmark className="size-4" />}
             label="Valor total del proyecto"
-            value={formatUsd(project.pricePerTokenUsd * project.totalSupply)}
+            value={<FinancialFigure value={project.pricePerTokenUsd * project.totalSupply} format="currency" decimals={0} />}
             accent="text-violet-400"
           />
           <InfoCard
@@ -686,8 +688,8 @@ export default function ProjectDetailPage() {
                     <Banknote className="size-4 text-primary" />
                     Inversion minima
                   </span>
-                  <span className="font-semibold text-foreground">
-                    {formatUsd(detail.investmentTerms.minimumInvestmentUsd)}
+                  <span className="text-base">
+                    <FinancialFigure value={detail.investmentTerms.minimumInvestmentUsd} format="currency" decimals={0} />
                   </span>
                 </div>
                 <div className="flex items-center justify-between rounded-sm border border-border/40 bg-black/20 px-3 py-2.5">
@@ -756,9 +758,9 @@ export default function ProjectDetailPage() {
                 Enlaces utiles
               </h3>
               <div className="mt-4 grid gap-2">
-                <Button asChild className="eq-cta w-full">
-                  <Link href="/marketplace">Invertir en este proyecto</Link>
-                </Button>
+                <EquittyPrimary href="/marketplace" className="w-full">
+                  Invertir en este proyecto
+                </EquittyPrimary>
                 <Button asChild variant="outline" className="eq-btn-outline w-full">
                   <Link href="/governance">Ver gobernanza del activo</Link>
                 </Button>
